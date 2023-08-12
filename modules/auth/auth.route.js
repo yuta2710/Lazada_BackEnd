@@ -1,12 +1,16 @@
 const express = require("express");
-const { register, login, getMe } = require("./auth.controller");
+const {
+    register,
+    login,
+    getMe,
+} = require("./auth.controller");
+
 const { protect } = require("../../middleware/auth.middleware");
-const router = express.Router(); // merge the relationship of entities
 
-router.route("/register").post(register);
+const router = express.Router();
 
-router.route("/login").post(login);
-
-router.route("/me").get(getMe);
+router.post("/register", register);
+router.post("/login", login);
+router.get("/me", protect, getMe);
 
 module.exports = router;

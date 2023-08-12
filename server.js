@@ -11,18 +11,18 @@ const connectDB = require("./configs/db.config");
 
 const app = express();
 
-const users = require("./modules/user/user.route");
-const auth = require("./modules/auth/auth.route");
-
-dotenv.config();
-
-connectDB();
-
 // Body Parser
 app.use(express.json());
 
 // Cookie Parser
 app.use(cookieParser());
+
+dotenv.config();
+
+connectDB();
+
+const users = require("./modules/user/user.route");
+const auth = require("./modules/auth/auth.route");
 
 app.use(cors());
 
