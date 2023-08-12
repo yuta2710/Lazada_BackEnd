@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ["admin", "seller", "customer"],
-        default: "customer",
+        required: [true, "Please add a role"]
     },
     createdAt: {
         type: Date,
@@ -49,8 +49,9 @@ UserSchema.pre("save", async function (next) {
     this.password = await bcryptjs.hash(this.password, salt);
 });
 
-UserSchema.methods.isValidPassword = async function (password) {
-    return bcryptjs.compare(password, this.password);
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcryptjs.compare(enteredPassword, this.password);
 };
+
 
 module.exports = mongoose.model("User", UserSchema);

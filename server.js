@@ -12,6 +12,8 @@ const connectDB = require("./configs/db.config");
 const app = express();
 
 const users = require("./modules/user/user.route");
+const auth = require("./modules/auth/auth.route");
+
 dotenv.config();
 
 connectDB();
@@ -25,6 +27,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users);
+app.use(`/api/${process.env.API_VERSION_1}/auth`, auth);
 
 if(process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
