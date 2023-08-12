@@ -33,7 +33,7 @@ console.log(process.env);
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
-    console.log(`Server connected to http://localhost:${PORT}`);
+    console.log(`Server connected to http://localhost:${PORT}`.green.underline.bold);
 });
 
 // Handle the unhandled promise rejection
