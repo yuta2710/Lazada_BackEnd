@@ -14,15 +14,15 @@ const UserSchema = new mongoose.Schema({
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             "Please add a valid email",
         ],
-        unique: true
+        unique: true,
     },
     phone: {
         type: String,
         required: [true, "Please add an address"],
     },
     address: {
-        type :String, 
-        required: [true, "Please add an address"]
+        type: String,
+        required: [true, "Please add an address"],
     },
     password: {
         type: String,
@@ -33,7 +33,11 @@ const UserSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ["admin", "seller", "customer"],
-        required: [true, "Please add a role"]
+        required: [true, "Please add a role"],
+    },
+    business: {
+        type: String,
+        default: null, // Default value for business field
     },
     createdAt: {
         type: Date,
@@ -49,13 +53,6 @@ UserSchema.pre("save", async function (next) {
     const salt = await bcryptjs.genSalt(10);
     this.password = await bcryptjs.hash(this.password, salt);
 });
-
-// Sign JWT and return
-UserSchema.methods.getSignedJwtToken = function () {
-	return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-		expiresIn: process.env.JWT_EXPIRE,
-	});
-};
 
 UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcryptjs.compare(enteredPassword, this.password);
