@@ -13,39 +13,44 @@ const UserSchema = new mongoose.Schema({
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             "Please add a valid email",
         ],
+        unique: true
     },
     phone: {
-        type: String, 
+        type: String,
         required: [true, "Please add an address"],
     },
+    address: {
+        type :String, 
+        required: [true, "Please add an address"]
+    },
     password: {
-        type: String, 
+        type: String,
         required: [true, "Please add a password"],
         minLength: 6,
-        select: false
+        select: false,
     },
     role: {
-        type: String, 
+        type: String,
         enum: ["admin", "seller", "customer"],
-        default: "customer"
+        default: "customer",
     },
     createdAt: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 });
 
-UserSchema.pre("save", async function(next){
-    if(!this.isModified("password")) {
+UserSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
         next();
     }
 
     const salt = await bcryptjs.genSalt(10);
     this.password = await bcryptjs.hash(this.password, salt);
-})
+});
 
-UserSchema.methods.isValidPassword = async function(password) {
+UserSchema.methods.isValidPassword = async function (password) {
     return bcryptjs.compare(password, this.password);
-}
+};
 
 module.exports = mongoose.model("User", UserSchema);
