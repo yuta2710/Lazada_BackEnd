@@ -1,116 +1,114 @@
 [
-    {
-        "_id": "61536b9c1e4a8e001f2a0eaa",
-        "title": "OPPO A54 4GB/128GB",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 10
+  {
+    "_id": "61536b9c1e4a8e001f2a0eaa",
+    "title": "OPPO A54 4GB/128GB",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
     },
-    {
-        "_id": "615378f827b8f2001f0b9e84",
-        "title": "Tecno POVA 5 (8+8)/128GB - MediaTek G99",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/161fcd2463ba12d3cdf42205e10e8ee5.jpg_720x720q80.jpg_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 15
+    "quantity": 10
+  },
+  {
+    "_id": "615378f827b8f2001f0b9e84",
+    "title": "Tecno POVA 5 (8+8)/128GB - MediaTek G99",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/161fcd2463ba12d3cdf42205e10e8ee5.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
     },
-    {
-        "_id": "61536b9c1e4a8e001f2a0eaa",
-        "title": "Samsung Galaxy Galaxy S23 8GB/256GB",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 10
+    "quantity": 15
+  },
+  {
+    "_id": "61536b9c1e4a8e001f2a0eaa",
+    "title": "Samsung Galaxy Galaxy S23 8GB/256GB",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
     },
-    {
-        "_id": "61537a7d6896e4001f84c5a2",
-        "title": "Samsung Galaxy Z Flip 5 (8GB/512GB)",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/94ceb3055bc70387e58c25b837c05889.png_720x720q80.png_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 10
+    "quantity": 10
+  },
+  {
+    "_id": "61537a7d6896e4001f84c5a2",
+    "title": "Samsung Galaxy Z Flip 5 (8GB/512GB)",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/94ceb3055bc70387e58c25b837c05889.png_720x720q80.png_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
     },
-    {
-        "_id": "61537cc0421b74001f4a0c19",
-        "title": "Apple iPhone 14 Pro Max",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/92da79aaf10c6a0a60c4823735e43aa1.jpg_720x720q80.jpg_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 10
+    "quantity": 10
+  },
+  {
+    "_id": "61537cc0421b74001f4a0c19",
+    "title": "Apple iPhone 14 Pro Max",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/92da79aaf10c6a0a60c4823735e43aa1.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
     },
-    {
-        "_id": "615381f7396a81001f6e2a1c",
-        "title": "OPPO A54 4GB/128GB",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 10
+    "quantity": 10
+  },
+  {
+    "_id": "615381f7396a81001f6e2a1c",
+    "title": "OPPO A54 4GB/128GB",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
     },
-    {
-        "_id": "615382f3d21b94001f7c603b",
-        "title": "Samsung Galaxy S23+ 8GB/256GB",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/10fae004a88efcf67958fe28dd115e94.png_720x720q80.png_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 10
+    "quantity": 10
+  },
+  {
+    "_id": "615382f3d21b94001f7c603b",
+    "title": "Samsung Galaxy S23+ 8GB/256GB",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/10fae004a88efcf67958fe28dd115e94.png_720x720q80.png_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
     },
-    {
-        "_id": "6153844b8f0a6e001f8d662b",
-        "title": "Samsung Galaxy J5 Prime 2sim ram 2/16G",
-        "description": "A high-quality smartphone with advanced features.",
-        "price": 599.99,
-        "image": "https://lzd-img-global.slatic.net/g/p/10fae004a88efcf67958fe28dd115e94.png_720x720q80.png_.webp",
-        "dateAdded": "2023-08-12T10:30:00Z",
-        "category": {
-            "id": "1",
-            "name": "Electronics Devices",
-            "subcategories": ["mobiles"]
-        },
-        "quantity": 10
-    }
+    "quantity": 10
+  },
+  {
+    "_id": "6153844b8f0a6e001f8d662b",
+    "title": "Samsung Galaxy J5 Prime 2sim ram 2/16G",
+    "description": "A high-quality smartphone with advanced features.",
+    "price": 599.99,
+    "image": "https://lzd-img-global.slatic.net/g/p/10fae004a88efcf67958fe28dd115e94.png_720x720q80.png_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": {
+      "id": "1",
+      "name": "Electronics Devices",
+      "subcategories": ["mobiles"]
+    },
+    "quantity": 10
+  }
 ]
-
-

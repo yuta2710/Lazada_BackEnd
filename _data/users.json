@@ -1,137 +1,137 @@
 [
-    {
-        "_id": "5d7a514b5d2c12c7449be042",
-        "name": "Admin Account",
-        "email": "admin@gmail.com",
-        "role": "admin",
-        "password": "123456",
-        "phone_number": "0987654321",
-        "address": "123 Main St, Cityville, Country"
-    },
-    {
-        "_id": "5d7a514b5d2c12c7449be043",
-        "name": "Seller Account",
-        "email": "seller@gmail.com",
-        "role": "seller",
-        "password": "123456",
-        "phone_number": "0912345678",
-        "address": "456 Elm Rd, Townburg, Country"
-    },
-    {
-        "_id": "5d7a514b5d2c12c7449be044",
-        "name": "Customer Account",
-        "email": "customer@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0845678901",
-        "address": "789 Oak Ave, Villagetown, Country"
-    },
-    {
-        "_id": "5d7a514b5d2c12c7449be045",
-        "name": "John Doe",
-        "email": "john@gmail.com",
-        "role": "seller",
-        "password": "123456",
-        "phone_number": "0865432190",
-        "address": "987 Pine Lane, Hamletsville, Country"
-    },
-    {
-        "_id": "5d7a514b5d2c12c7449be046",
-        "name": "Kevin Smith",
-        "email": "kevin@gmail.com",
-        "role": "seller",
-        "password": "123456",
-        "phone_number": "0978901234",
-        "address": "654 Birch Street, Villageton, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc031",
-        "name": "Mary Williams",
-        "email": "mary@gmail.com",
-        "role": "seller",
-        "password": "123456",
-        "phone_number": "0890123456",
-        "address": "321 Maple Lane, Cityburg, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc032",
-        "name": "Sasha Ryan",
-        "email": "sasha@gmail.com",
-        "role": "seller",
-        "password": "123456",
-        "phone_number": "0856789012",
-        "address": "789 Elm Road, Villageton, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc033",
-        "name": "Greg Harris",
-        "email": "greg@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0965432109",
-        "address": "234 Oak Avenue, Townville, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc034",
-        "name": "Derek Glover",
-        "email": "derek@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0901234567",
-        "address": "567 Birch Street, Hamletburg, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc035",
-        "name": "Stephanie Hanson",
-        "email": "steph@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0956789012",
-        "address": "890 Pine Lane, Cityton, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc036",
-        "name": "Jerry Williams",
-        "email": "jerry@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0889012345",
-        "address": "123 Maple Avenue, Townburg, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc037",
-        "name": "Maggie Johnson",
-        "email": "maggie@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0945678901",
-        "address": "456 Elm Lane, Villagetown, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc038",
-        "name": "Barry Dickens",
-        "email": "barry@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0832109876",
-        "address": "789 Oak Road, Cityville, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc039",
-        "name": "Ryan Bolin",
-        "email": "ryan@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0832109876",
-        "address": "987 Pine Avenue, Villageton, Country"
-    },
-    {
-        "_id": "5c8a1d5b0190b214360dc040",
-        "name": "Sara Kensing",
-        "email": "sara@gmail.com",
-        "role": "customer",
-        "password": "123456",
-        "phone_number": "0878901234",
-        "address": "654 Birch Lane, Hamletville, Country"
-    }
+  {
+    "_id": "5d7a514b5d2c12c7449be042",
+    "name": "Admin Account",
+    "email": "admin@gmail.com",
+    "role": "admin",
+    "password": "123456",
+    "phone_number": "0987654321",
+    "address": "123 Main St, Cityville, Country"
+  },
+  {
+    "_id": "5d7a514b5d2c12c7449be043",
+    "name": "Seller Account",
+    "email": "seller@gmail.com",
+    "role": "seller",
+    "password": "123456",
+    "phone_number": "0912345678",
+    "address": "456 Elm Rd, Townburg, Country"
+  },
+  {
+    "_id": "5d7a514b5d2c12c7449be044",
+    "name": "Customer Account",
+    "email": "customer@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0845678901",
+    "address": "789 Oak Ave, Villagetown, Country"
+  },
+  {
+    "_id": "5d7a514b5d2c12c7449be045",
+    "name": "John Doe",
+    "email": "john@gmail.com",
+    "role": "seller",
+    "password": "123456",
+    "phone_number": "0865432190",
+    "address": "987 Pine Lane, Hamletsville, Country"
+  },
+  {
+    "_id": "5d7a514b5d2c12c7449be046",
+    "name": "Kevin Smith",
+    "email": "kevin@gmail.com",
+    "role": "seller",
+    "password": "123456",
+    "phone_number": "0978901234",
+    "address": "654 Birch Street, Villageton, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc031",
+    "name": "Mary Williams",
+    "email": "mary@gmail.com",
+    "role": "seller",
+    "password": "123456",
+    "phone_number": "0890123456",
+    "address": "321 Maple Lane, Cityburg, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc032",
+    "name": "Sasha Ryan",
+    "email": "sasha@gmail.com",
+    "role": "seller",
+    "password": "123456",
+    "phone_number": "0856789012",
+    "address": "789 Elm Road, Villageton, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc033",
+    "name": "Greg Harris",
+    "email": "greg@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0965432109",
+    "address": "234 Oak Avenue, Townville, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc034",
+    "name": "Derek Glover",
+    "email": "derek@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0901234567",
+    "address": "567 Birch Street, Hamletburg, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc035",
+    "name": "Stephanie Hanson",
+    "email": "steph@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0956789012",
+    "address": "890 Pine Lane, Cityton, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc036",
+    "name": "Jerry Williams",
+    "email": "jerry@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0889012345",
+    "address": "123 Maple Avenue, Townburg, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc037",
+    "name": "Maggie Johnson",
+    "email": "maggie@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0945678901",
+    "address": "456 Elm Lane, Villagetown, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc038",
+    "name": "Barry Dickens",
+    "email": "barry@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0832109876",
+    "address": "789 Oak Road, Cityville, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc039",
+    "name": "Ryan Bolin",
+    "email": "ryan@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0832109876",
+    "address": "987 Pine Avenue, Villageton, Country"
+  },
+  {
+    "_id": "5c8a1d5b0190b214360dc040",
+    "name": "Sara Kensing",
+    "email": "sara@gmail.com",
+    "role": "customer",
+    "password": "123456",
+    "phone_number": "0878901234",
+    "address": "654 Birch Lane, Hamletville, Country"
+  }
 ]

@@ -1,6 +1,6 @@
 const asyncHandler = require("../../middleware/async.middleware");
 
-exports.getAllProducts = asyncHandler(async(req, res, next) => {});
+exports.getAllProducts = asyncHandler(async (req, res, next) => {});
 
 exports.getProductsByCategory = asyncHandler(async (req, res, next) => {});
 exports.getProductsBySubCategories = asyncHandler(async (req, res, next) => {});
