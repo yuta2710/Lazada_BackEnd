@@ -16,9 +16,13 @@ const UserSchema = new mongoose.Schema({
         ],
         unique: true,
     },
-    phone: {
+    phone_number: {
         type: String,
-        required: [true, "Please add an address"],
+        match: [
+            /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/,
+            "Please add an phone number",
+        ],
+        unique: true,
     },
     address: {
         type: String,
@@ -57,6 +61,5 @@ UserSchema.pre("save", async function (next) {
 UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcryptjs.compare(enteredPassword, this.password);
 };
-
 
 module.exports = mongoose.model("User", UserSchema);

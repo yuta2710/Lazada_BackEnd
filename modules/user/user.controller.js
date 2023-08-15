@@ -1,33 +1,42 @@
 const asyncHandler = require("../../middleware/async.middleware");
+const ErrorResponse = require("../../utils/error.util");
 const userModel = require("./user.model");
 
 exports.createUser = asyncHandler(async (req, res, next) => {
-    const { name, email, phone, password, address, role, business } = req.body;
+    const { name, email, phone_number, password, address, role, business } =
+        req.body;
 
-    console.table([{ name, email, phone, password, address, role }]);
+    console.table([{ name, email, phone_number, password, address, role }]);
 
     let user;
 
-    if (role === "seller" && business) {
-        user = await userModel.create({
-            name,
-            email,
-            phone,
-            password,
-            address,
-            role,
-            business,
-        });
-        user.set("business", business);
-        await user.save();
+    if (!(await userModel.findOne({ phone_number: phone_number }))) {
+        if (role === "seller" && business) {
+            user = await userModel.create({
+                name,
+                email,
+                phone_number,
+                password,
+                address,
+                role,
+                business,
+            });
+            user.set("business", business);
+            await user.save();
+        } else {
+            user = await userModel.create({
+                name,
+                email,
+                phone_number,
+                password,
+                address,
+                role,
+            });
+        }
     } else {
-        user = await userModel.create({
-            name,
-            email,
-            phone,
-            password,
-            address,
-            role,
+        res.status(400).json({
+            success: false,
+            message: "Duplicate error. A phone-number should be unique",
         });
     }
     res.status(201).json({

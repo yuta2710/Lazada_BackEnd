@@ -4,14 +4,14 @@ const { createToken } = require("../../utils/token.util");
 const userModel = require("../user/user.model");
 
 exports.register = asyncHandler(async (req, res, next) => {
-    const { name, email, phone, password, address, role } = req.body;
+    const { name, email, phone_number, password, address, role } = req.body;
 
-    console.table([{ name, email, phone, password, address, role }]);
+    console.table([{ name, email, phone_number, password, address, role }]);
 
     const user = await userModel.create({
         name,
         email,
-        phone,
+        phone_number,
         password,
         address,
         role,
@@ -26,17 +26,37 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 exports.login = asyncHandler(async (req, res, next) => {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
+    console.table({ identifier, password });
     // Validate email and password
-    if (!email || !password) {
+    if (!identifier || !password) {
         return next(
-            new ErrorResponse(400, `Please provide the email and password`)
+            new ErrorResponse(
+                400,
+                `Please provide the email/phone-number and password`
+            )
         );
     }
 
+    let user;
+    const regexEmail =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+
+    if (regexEmail.test(identifier)) {
+        user = await userModel
+            .findOne({ email: identifier })
+            .select("+password");
+    }
+
+    if (regexPhoneNumber.test(identifier)) {
+        user = await userModel
+            .findOne({ phone_number: identifier })
+            .select("+password");
+    }
     // Check for user
-    const user = await userModel.findOne({ email }).select("+password");
 
     if (!user) {
         return next(new ErrorResponse(401, `Invalid credentials`));
@@ -63,6 +83,45 @@ exports.login = asyncHandler(async (req, res, next) => {
             token,
         });
 });
+
+// exports.login = asyncHandler(async (req, res, next) => {
+//     const { email, password } = req.body;
+
+//     // Validate email and password
+//     if (!email || !password) {
+//         return next(
+//             new ErrorResponse(400, `Please provide the email and password`)
+//         );
+//     }
+
+//     // Check for user
+//     const user = await userModel.findOne({ email }).select("+password");
+
+//     if (!user) {
+//         return next(new ErrorResponse(401, `Invalid credentials`));
+//     }
+
+//     // Check if password matches
+//     const isMatch = await user.matchPassword(password);
+
+//     if (!isMatch) {
+//         return next(new ErrorResponse(401, `Invalid credentials`));
+//     }
+
+//     const token = createToken(user);
+
+//     res.status(200)
+//         .cookie("token", token, {
+//             httpOnly: true,
+//             expires: new Date(
+//                 Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+//             ),
+//         })
+//         .json({
+//             success: true,
+//             token,
+//         });
+// });
 
 exports.getMe = asyncHandler(async (req, res, next) => {
     const user = await userModel.findById(req.user.id);
