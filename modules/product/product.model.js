@@ -25,14 +25,6 @@ const ProductSchema = new mongoose.Schema({
         default: Date.now,
         required: [true, "Please add a date added"],
     },
-    category: {
-        name: {
-            type: String,
-        },
-        subCategories: {
-            type: [String],
-        },
-    },
     quantity: {
         type: Number,
         required: [true, "Please add a quantity"],
