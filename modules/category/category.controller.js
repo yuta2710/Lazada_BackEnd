@@ -23,3 +23,12 @@ exports.getAllCategories = asyncHandler(async (req, res, next) => {
     data: categories,
   });
 });
+
+exports.getCategory = asyncHandler(async (req, res, next) => {
+  const category = await categoryModel.findById(req.params.id).exec();
+
+  res.status(201).json({
+    success: true,
+    data: category,
+  });
+});
