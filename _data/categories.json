@@ -1,0 +1,64 @@
+[
+  {
+    "_id": "617c1a6c0b34c50001f4d02e",
+    "name": "Electrical",
+    "parentCat": null,
+    "products": []
+  },
+  {
+    "_id": "61f4c5e2d6a5e20001f4d252",
+    "name": "Mobiles",
+    "parentCat": "617c1a6c0b34c50001f4d02e",
+    "products": [
+      "61536b9c1e4a8e001f2a0eaa",
+      "615378f827b8f2001f0b9e84",
+      "61536b9c1e4a8e001f2a0e33",
+      "61537a7d6896e4001f84c5a2",
+      "61537cc0421b74001f4a0c19",
+      "615381f7396a81001f6e2a1c",
+      "615382f3d21b94001f7c603b",
+      "6153844b8f0a6e001f8d662b"
+    ]
+  },
+  {
+    "_id": "61a3f8a7d6a5e20001f4d02f",
+    "name": "Laptops",
+    "parentCat": "617c1a6c0b34c50001f4d02e",
+    "products": []
+  },
+  {
+    "_id": "620befd3d0f9fb0001f4d032",
+    "name": "Traditional Laptop",
+    "parentCat": "61a3f8a7d6a5e20001f4d02f",
+    "products": [
+      "625f9c00d0f9fb0001f4d034",
+      "625f9c00d0f9fb0001f4d035",
+      "625f9c00d0f9fb0001f4d036",
+      "625f9c00d0f9fb0001f4d037"
+    ]
+  },
+  {
+    "_id": "623740e6d0f9fb0001f4d033",
+    "name": "Gaming Laptop",
+    "parentCat": "61a3f8a7d6a5e20001f4d02f",
+    "products": []
+  },
+  {
+    "_id": "61f4c5e2d6a5e20001f4d031",
+    "name": "Smartwatches",
+    "parentCat": "617c1a6c0b34c50001f4d02e",
+    "products": []
+  },
+  {
+    "_id": "625f9c00d0f9fb0001f4d034",
+    "name": "Smartwatches for kids",
+    "parentCat": "61f4c5e2d6a5e20001f4d031",
+    "products": []
+  },
+  {
+    "_id": "627e3225d0f9fb0001f4d452",
+    "name": "Designer Smartwatches",
+    "parentCat": "61f4c5e2d6a5e20001f4d031",
+    "products": []
+  }
+]

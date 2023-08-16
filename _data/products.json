@@ -2,113 +2,121 @@
   {
     "_id": "61536b9c1e4a8e001f2a0eaa",
     "title": "OPPO A54 4GB/128GB",
-    "description": "A high-quality smartphone with advanced features.",
+    "description": "Experience the power of OPPO A54 with its advanced features and stunning performance.",
     "price": 599.99,
     "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
     "quantity": 10
   },
   {
     "_id": "615378f827b8f2001f0b9e84",
     "title": "Tecno POVA 5 (8+8)/128GB - MediaTek G99",
-    "description": "A high-quality smartphone with advanced features.",
+    "description": "Unleash the power of Tecno POVA 5 smartphone equipped with MediaTek G99 processor and enjoy seamless performance.",
     "price": 599.99,
     "image": "https://lzd-img-global.slatic.net/g/p/161fcd2463ba12d3cdf42205e10e8ee5.jpg_720x720q80.jpg_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
     "quantity": 15
   },
   {
-    "_id": "61536b9c1e4a8e001f2a0eaa",
+    "_id": "61536b9c1e4a8e001f2a0e33",
     "title": "Samsung Galaxy Galaxy S23 8GB/256GB",
-    "description": "A high-quality smartphone with advanced features.",
+    "description": "Experience the cutting-edge technology of Samsung Galaxy S23 with its powerful features and stunning design.",
     "price": 599.99,
     "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
     "quantity": 10
   },
   {
     "_id": "61537a7d6896e4001f84c5a2",
     "title": "Samsung Galaxy Z Flip 5 (8GB/512GB)",
-    "description": "A high-quality smartphone with advanced features.",
+    "description": "Experience the future of smartphones with Samsung Galaxy Z Flip 5 and its innovative folding design.",
     "price": 599.99,
     "image": "https://lzd-img-global.slatic.net/g/p/94ceb3055bc70387e58c25b837c05889.png_720x720q80.png_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
     "quantity": 10
   },
   {
     "_id": "61537cc0421b74001f4a0c19",
     "title": "Apple iPhone 14 Pro Max",
-    "description": "A high-quality smartphone with advanced features.",
+    "description": "Embrace the pinnacle of technology with Apple iPhone 14 Pro Max and enjoy its exceptional features and performance.",
     "price": 599.99,
     "image": "https://lzd-img-global.slatic.net/g/p/92da79aaf10c6a0a60c4823735e43aa1.jpg_720x720q80.jpg_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
     "quantity": 10
   },
   {
     "_id": "615381f7396a81001f6e2a1c",
-    "title": "OPPO A54 4GB/128GB",
-    "description": "A high-quality smartphone with advanced features.",
+    "title": "TECNO SPARK Go 2023 3GB+3GB /64GB",
+    "description": "Discover the excellence of TECNO SPARK Go 2023 with its remarkable features and exceptional performance.",
     "price": 599.99,
-    "image": "https://lzd-img-global.slatic.net/g/p/2ed1ee304fa8da4e4c60e093b5fd8fdf.jpg_720x720q80.jpg_.webp",
+    "image": "https://lzd-img-global.slatic.net/g/p/3a491e0632d6a0e81fd1754a0ba2e2b1.png_720x720q80.png_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
     "quantity": 10
   },
   {
     "_id": "615382f3d21b94001f7c603b",
     "title": "Samsung Galaxy S23+ 8GB/256GB",
-    "description": "A high-quality smartphone with advanced features.",
+    "description": "Immerse yourself in the world of Samsung Galaxy S23+ and experience its exceptional features and stunning visuals.",
     "price": 599.99,
     "image": "https://lzd-img-global.slatic.net/g/p/10fae004a88efcf67958fe28dd115e94.png_720x720q80.png_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
     "quantity": 10
   },
   {
     "_id": "6153844b8f0a6e001f8d662b",
     "title": "Samsung Galaxy J5 Prime 2sim ram 2/16G",
-    "description": "A high-quality smartphone with advanced features.",
+    "description": "Enjoy the perfect balance of affordability and performance with Samsung Galaxy J5 Prime, featuring a dual SIM option and expandable storage.",
     "price": 599.99,
     "image": "https://lzd-img-global.slatic.net/g/p/10fae004a88efcf67958fe28dd115e94.png_720x720q80.png_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": {
-      "id": "1",
-      "name": "Electronics Devices",
-      "subcategories": ["mobiles"]
-    },
+    "category": "617c1a6c0b34c50001f4d02e",
+    "quantity": 10
+  },
+  {
+    "_id": "625f9c00d0f9fb0001f4d034",
+    "title": "Dell Inspiron 15 3511 (70270650)",
+    "description": "Dell Inspiron 3511 is a graphic-technical laptop equipped with advanced technologies suitable for ordinary designers, and at the same time serves entertainment such as playing games with smooth and sharp images.",
+    "price": 20650000,
+    "image": "https://lzd-img-global.slatic.net/g/p/a6ba9003353991eedc8915794d7f83bd.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": "620befd3d0f9fb0001f4d032",
+    "quantity": 10
+  },
+  {
+    "_id": "625f9c00d0f9fb0001f4d035",
+    "title": "Laptop Lenovo IdeaPad 3 15IAU7 - 82RK001QVN (i5-1235U)",
+    "description": "The Lenovo IdeaPad 3 15IAU7 - 82RK001QVN laptop offers a great user experience thanks to its powerful performance with Intel Core i5 CPU that handles data well and elegant, outstanding appearance. Lenovo IdeaPad is suitable for users who need to work in the office, study or entertain.",
+    "price": 14568000,
+    "image": "https://lzd-img-global.slatic.net/g/p/d191c11084ab03d916f8bff192a6e05a.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": "620befd3d0f9fb0001f4d032",
+    "quantity": 10
+  },
+  {
+    "_id": "625f9c00d0f9fb0001f4d036",
+    "title": "Dell latitude 7300 Core i5 8265U / Ram 8GB / SSD 256GB/ 13.3 inch FHD IPS",
+    "description": "The Dell Latitude 7300 is a laptop model that features an Intel Core i5 8265U processor. It comes with 8GB of RAM and a 256GB solid-state drive (SSD) for storage. The laptop has a 13.3-inch Full HD (FHD) IPS display, which offers excellent visual quality and wide viewing angles.",
+    "price": 5721600,
+    "image": "https://lzd-img-global.slatic.net/g/p/d191c11084ab03d916f8bff192a6e05a.jpg_720x720q80.jpg_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": "620befd3d0f9fb0001f4d032",
+    "quantity": 10
+  },
+  {
+    "_id": "625f9c00d0f9fb0001f4d037",
+    "title": "Apple MacBook Air 13 2020 (M1/8GB/256GB)",
+    "description": "MacBook Air is Apple's thinnest and lightest laptop - now a dramatic change with the powerful Apple M1 chip. Get a jump in CPU and graphics performance, and up to 18 hours of battery life.",
+    "price": 19400000,
+    "image": "https://lzd-img-global.slatic.net/g/p/f039453fb9b90445da1094ac76cb0378.png_720x720q80.png_.webp",
+    "dateAdded": "2023-08-12T10:30:00Z",
+    "category": "620befd3d0f9fb0001f4d032",
     "quantity": 10
   }
 ]

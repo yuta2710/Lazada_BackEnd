@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, Schema } = require("mongoose");
 
 const ProductSchema = new mongoose.Schema({
   title: {
@@ -8,11 +8,10 @@ const ProductSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    unique: true,
     required: [true, "Please add a description"],
   },
   price: {
-    type: Double,
+    type: Number,
     required: [true, "Please add a price"],
   },
   image: {
@@ -28,6 +27,11 @@ const ProductSchema = new mongoose.Schema({
   quantity: {
     type: Number,
     required: [true, "Please add a quantity"],
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
   },
 });
 

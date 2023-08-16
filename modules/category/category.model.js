@@ -6,6 +6,16 @@ const CategorySchema = new mongoose.Schema({
     unique: true,
     required: [true, "Please add a title"],
   },
+  parentCat: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+    default: null,
+  },
+  products: {
+    type: Array(Schema.Types.ObjectId),
+    ref: "Product",
+    default: [],
+  },
 });
 
-module.exports = mongoose.model("Product", ProductSchema);
+module.exports = mongoose.model("Category", CategorySchema);
