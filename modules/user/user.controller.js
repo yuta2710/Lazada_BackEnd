@@ -1,5 +1,4 @@
 const asyncHandler = require("../../middleware/async.middleware");
-const ErrorResponse = require("../../utils/error.util");
 const userModel = require("./user.model");
 
 exports.createUser = asyncHandler(async (req, res, next) => {

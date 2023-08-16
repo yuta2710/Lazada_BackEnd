@@ -1,5 +1,4 @@
 const asyncHandler = require("../../middleware/async.middleware");
-const ErrorResponse = require("../../utils/error.util");
 const categoryModel = require("./category.model");
 
 exports.createCategory = asyncHandler(async (req, res, next) => {
@@ -30,5 +29,23 @@ exports.getCategory = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     data: category,
+  });
+});
+
+exports.updateCategory = asyncHandler(async (req, res, next) => {
+  const category = await categoryModel.findByIdAndUpdate(req.params.id).exec();
+
+  res.status(201).json({
+    success: true,
+    data: category,
+  });
+});
+
+exports.deleteCategory = asyncHandler(async (req, res, next) => {
+  await categoryModel.findByIdAndDelete(req.params.id).exec();
+
+  res.status(201).json({
+    success: true,
+    data: {},
   });
 });
