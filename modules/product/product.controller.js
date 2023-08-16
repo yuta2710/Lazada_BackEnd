@@ -39,6 +39,19 @@ exports.getProductsCategory = asyncHandler(async (req, res, next) => {
     data: products,
   });
 });
+exports.getProductByCategoryAndProductId = asyncHandler(
+  async (req, res, next) => {
+    const catId = req.params.cid;
+    const prodId = req.params.pid;
+
+    const product = await productModel.find({ _id: prodId, category: catId });
+
+    res.status(200).json({
+      success: true,
+      data: product,
+    });
+  }
+);
 exports.getProductsByPrice = asyncHandler(async (req, res, next) => {});
 exports.getProductsByDateAdded = asyncHandler(async (req, res, next) => {});
 

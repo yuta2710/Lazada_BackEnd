@@ -7,6 +7,7 @@ const {
   deleteProduct,
   getProductsCategory,
   productPhotoUpload,
+  getProductByCategoryAndProductId,
 } = require("./product.controller");
 
 const router = express.Router();
@@ -18,7 +19,8 @@ router
   .put(updateProduct)
   .delete(deleteProduct);
 
-router.route("/categories/:id").get(getProductsCategory);
-router.route("/categories/:id/photo").put(productPhotoUpload);
+router.route("/categories/:cid").get(getProductsCategory);
+router.route("/categories/:cid/:pid").get(getProductByCategoryAndProductId);
+router.route("/categories/:cid/:pid/photo").put(productPhotoUpload);
 
 module.exports = router;
