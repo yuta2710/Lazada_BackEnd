@@ -31,3 +31,15 @@
 6747d9c6d6a5e20001f4d052
 676c3a57d0f9fb0001f4d053
 679ed6dcd0f9fb0001f4d054
+
+route
+
+/category/
+
+- GET /categories
+  To get the category with ID "617c1a6c0b34c50001f4d02e":
+- GET /categories/617c1a6c0b34c50001f4d02e
+  To get all subcategories of the category with ID "617c1a6c0b34c50001f4d02e":
+- GET /categories/617c1a6c0b34c50001f4d02e/subcategories
+  To get all products under the category with "617c1a6c0b34c50001f4d02e":
+- GET /categories/617c1a6c0b34c50001f4d02e/products
