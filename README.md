@@ -43,3 +43,13 @@ route
 - GET /categories/617c1a6c0b34c50001f4d02e/subcategories
   To get all products under the category with "617c1a6c0b34c50001f4d02e":
 - GET /categories/617c1a6c0b34c50001f4d02e/products
+
+/products/
+
+- GET /products
+- GET /products/{id}
+- POST /products
+- PUT /products/{id}
+- DELETE /products/{id}
+- GET /products/categories
+- GET /products/categories/{id}

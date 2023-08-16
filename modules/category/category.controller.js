@@ -17,7 +17,7 @@ exports.createCategory = asyncHandler(async (req, res, next) => {
 exports.getAllCategories = asyncHandler(async (req, res, next) => {
   const categories = await categoryModel.find().exec();
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     data: categories,
   });
@@ -26,16 +26,18 @@ exports.getAllCategories = asyncHandler(async (req, res, next) => {
 exports.getCategory = asyncHandler(async (req, res, next) => {
   const category = await categoryModel.findById(req.params.id).exec();
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     data: category,
   });
 });
 
 exports.updateCategory = asyncHandler(async (req, res, next) => {
-  const category = await categoryModel.findByIdAndUpdate(req.params.id).exec();
+  const category = await categoryModel
+    .findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .exec();
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     data: category,
   });
@@ -44,7 +46,7 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
 exports.deleteCategory = asyncHandler(async (req, res, next) => {
   await categoryModel.findByIdAndDelete(req.params.id).exec();
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     data: {},
   });

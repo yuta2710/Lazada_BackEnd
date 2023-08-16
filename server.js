@@ -24,12 +24,14 @@ connectDB();
 const users = require("./modules/user/user.route");
 const auth = require("./modules/auth/auth.route");
 const category = require("./modules/category/category.route");
+const product = require("./modules/product/product.route");
 
 app.use(cors());
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users);
 app.use(`/api/${process.env.API_VERSION_1}/auth`, auth);
-app.use(`/api/${process.env.API_VERSION_1}/category`, category);
+app.use(`/api/${process.env.API_VERSION_1}/categories`, category);
+app.use(`/api/${process.env.API_VERSION_1}/products`, product);
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
