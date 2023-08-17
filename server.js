@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const colors = require("colors");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
 const errorHandler = require("./middleware/error.middleware");
 const connectDB = require("./configs/db.config");
@@ -26,7 +27,11 @@ const auth = require("./modules/auth/auth.route");
 const category = require("./modules/category/category.route");
 const product = require("./modules/product/product.route");
 
+app.use(fileUpload);
+
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users);
 app.use(`/api/${process.env.API_VERSION_1}/auth`, auth);

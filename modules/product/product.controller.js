@@ -3,6 +3,7 @@ const asyncHandler = require("../../middleware/async.middleware");
 const ErrorResponse = require("../../utils/error.util");
 const productModel = require("./product.model");
 const userModel = require("../user/user.model");
+const categoryModel = require("../category/category.model");
 /**
   GET /products
 - GET /products/{id}
@@ -81,13 +82,22 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {});
 exports.deleteProduct = asyncHandler(async (req, res, next) => {});
 
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
-  const product = await productModel.findById(req.params.id);
+  const category = await categoryModel.findById(req.params.cid);
+
+  if (!category) {
+    return next(new ErrorResponse(400, `Product not found`));
+  }
+
+  const product = await productModel.findById(req.params.pid);
 
   if (!product) {
     return next(new ErrorResponse(400, `Product not found`));
   }
 
+  console.log(product);
+
   if (!req.files) {
+    console.log("Haha");
     return next(new Response(400, "Please upload a file"));
   }
 
@@ -109,7 +119,7 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
     }
 
     await productModel.findByIdAndUpdate(
-      req.params.id,
+      req.params.pid,
       { image: file.name },
       { new: true }
     );
