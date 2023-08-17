@@ -96,14 +96,22 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
 
   console.log(product);
 
+  console.log(req);
+
   if (!req.files) {
-    console.log("Haha");
-    return next(new Response(400, "Please upload a file"));
+    return next(new ErrorResponse(400, "Please upload a file"));
   }
+
+  console.log("Req.files = ", req.files);
 
   const file = req.files.file;
 
-  if (!file.mimetype.startsWith("image")) {
+  if (
+    !file.mimetype.startsWith("image/png") &&
+    !file.mimetype.startsWith("image/jpg") &&
+    !file.mimetype.startsWith("image/jpeg")
+  ) {
+    // console.log(file.mimetype.startsWith("image/jpeg"));
     return next(new ErrorResponse(400, "Please upload an image"));
   }
 
@@ -112,9 +120,12 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
   }
 
   file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+  console.log(file.name);
 
   file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+    console.log(process.env.FILE_UPLOAD_PATH);
     if (err) {
+      console.log(err.stack.red);
       return next(new ErrorResponse("Problem with file upload", 500));
     }
 
@@ -126,7 +137,7 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      data: await userModel.findById(req.params.id),
+      data: await productModel.findById(req.params.pid),
     });
   });
 });

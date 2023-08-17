@@ -27,9 +27,8 @@ const auth = require("./modules/auth/auth.route");
 const category = require("./modules/category/category.route");
 const product = require("./modules/product/product.route");
 
-app.use(fileUpload);
-
 app.use(cors());
+app.use(fileUpload());
 
 app.use(express.static(path.join(__dirname, "public")));
 
