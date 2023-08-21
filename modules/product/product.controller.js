@@ -104,10 +104,6 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(400, `Product not found`));
   }
 
-  console.log(product);
-
-  console.log(req);
-
   if (!req.files) {
     return next(new ErrorResponse(400, "Please upload a file"));
   }

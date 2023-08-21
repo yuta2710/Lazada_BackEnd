@@ -63,12 +63,14 @@
     "_id": "625f9c00d0f9fb0001f4d034",
     "name": "Smartwatches for kids",
     "parentCat": "61f4c5e2d6a5e20001f4d031",
+    "childCat": [],
     "products": []
   },
   {
     "_id": "627e3225d0f9fb0001f4d452",
     "name": "Designer Smartwatches",
     "parentCat": "61f4c5e2d6a5e20001f4d031",
+    "childCat": [],
     "products": []
   }
 ]
