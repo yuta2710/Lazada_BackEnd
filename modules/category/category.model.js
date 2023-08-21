@@ -11,6 +11,11 @@ const CategorySchema = new mongoose.Schema({
     ref: "Category",
     default: null,
   },
+  childCat: {
+    type: Array(Schema.Types.ObjectId),
+    ref: "Category",
+    default: [],
+  },
   products: {
     type: Array(Schema.Types.ObjectId),
     ref: "Product",

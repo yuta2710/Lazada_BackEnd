@@ -14,7 +14,7 @@ const categoryModel = require("../category/category.model");
  */
 
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
-  const products = await productModel.find();
+  const products = await productModel.find().exec();
 
   res.status(200).json({
     success: true,
@@ -32,28 +32,37 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
   });
 });
 exports.getProductsCategory = asyncHandler(async (req, res, next) => {
-  const categoryId = req.params.id;
+  const categoryId = req.params.cid;
+
+  console.log(categoryId);
 
   const products = await productModel.find({ category: categoryId });
-
+  const { name, childCat } = await categoryModel.findOne({ _id: categoryId });
   res.status(200).json({
     success: true,
+    type: name,
+    count: products.length,
+    subCategories: childCat,
     data: products,
   });
 });
+
 exports.getProductByCategoryAndProductId = asyncHandler(
   async (req, res, next) => {
     const catId = req.params.cid;
     const prodId = req.params.pid;
 
+    const { name } = await categoryModel.findOne({ _id: catId });
     const product = await productModel.find({ _id: prodId, category: catId });
 
     res.status(200).json({
       success: true,
+      type: name,
       data: product,
     });
   }
 );
+
 exports.getProductsByPrice = asyncHandler(async (req, res, next) => {});
 exports.getProductsByDateAdded = asyncHandler(async (req, res, next) => {});
 
