@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
 
-  // Check if token is present in the request headers
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")

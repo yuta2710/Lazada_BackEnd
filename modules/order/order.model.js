@@ -4,8 +4,9 @@ const OrderSchema = new mongoose.Schema({
   status: {
     type: String,
     unique: true,
-    enum: ["New", "Accepted", "Rejected"],
-    default: "New",
+    required: [true, "Please add a status"],
+    enum: ["new", "accepted", "rejected"],
+    default: "new",
   },
   cartId: {
     type: Schema.Types.ObjectId,
