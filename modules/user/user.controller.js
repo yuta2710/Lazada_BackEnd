@@ -46,7 +46,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 });
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-  const users = await userModel.find().exec();
+  const users = await userModel.find();
 
   res.status(200).json({
     success: true,
@@ -79,10 +79,15 @@ exports.updateSellerBusiness = asyncHandler(async (req, res, next) => {
   const { business } = req.body;
   let user;
 
-  if (req.user.role === "seller" || req.user.role === "admin") {
+  if ((req.user.role === "seller" || req.user.role === "admin") && business) {
     user = await userModel
       .findByIdAndUpdate(req.params.id, { business }, { new: true })
       .exec();
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "Unable to update a business field of user",
+    });
   }
   res.status(200).json({
     success: true,
@@ -104,6 +109,7 @@ exports.acceptUserStatus = asyncHandler(async (req, res, next) => {
   const { status } = req.body;
 
   let user = await userModel.findById(id);
+  const validStatusValues = ["Approved", "Rejected", "Pending"];
 
   if (!user) {
     res.status(404).json({
@@ -113,12 +119,19 @@ exports.acceptUserStatus = asyncHandler(async (req, res, next) => {
   }
 
   if (user.role === "seller") {
-    console.log(user.role);
-    user = await userModel.findByIdAndUpdate(
-      id,
-      { status: status },
-      { new: true }
-    );
+    if (validStatusValues.includes(status)) {
+      user = await userModel.findByIdAndUpdate(
+        id,
+        { status: status },
+        { new: true }
+      );
+    } else {
+      user = await userModel.findByIdAndUpdate(
+        id,
+        { status: "" },
+        { new: true }
+      );
+    }
 
     res.status(200).json({
       success: true,

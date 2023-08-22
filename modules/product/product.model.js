@@ -33,6 +33,11 @@ const ProductSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  sellerId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Product", ProductSchema);

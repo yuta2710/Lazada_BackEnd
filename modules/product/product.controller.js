@@ -68,6 +68,23 @@ exports.getProductsByDateAdded = asyncHandler(async (req, res, next) => {});
 
 exports.getProductByName = asyncHandler(async (req, res, next) => {});
 
+exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
+  const { sid } = req.params;
+  const allProducts = await productModel.find();
+
+  console.log(allProducts);
+
+  const productsBySellerId = allProducts.filter(
+    (product) => product.sellerId.toString() === sid
+  );
+
+  res.status(200).json({
+    success: true,
+    count: productsBySellerId.length,
+    data: productsBySellerId,
+  });
+});
+
 exports.createProduct = asyncHandler(async (req, res, next) => {
   const { title, description, price, image, dateAdded, category, quantity } =
     req.body;

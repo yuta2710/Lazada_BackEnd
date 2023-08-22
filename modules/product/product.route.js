@@ -8,6 +8,7 @@ const {
   getProductsCategory,
   productPhotoUpload,
   getProductByCategoryAndProductId,
+  getProductsBySellerId,
 } = require("./product.controller");
 const { protect, authorize } = require("../../middleware/auth.middleware");
 
@@ -17,6 +18,9 @@ router.use(protect);
 router.use(authorize("admin"));
 
 router.route("/").get(getAllProducts).post(createProduct);
+
+router.route("/:sid").get(getProductsBySellerId);
+
 router
   .route("/:id")
   .get(getProductById)

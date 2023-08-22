@@ -1,4 +1,4 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, Schema } = require("mongoose");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -41,15 +41,21 @@ const UserSchema = new mongoose.Schema({
   },
   business: {
     type: String,
-    default: null, // Default value for business field
+    default: "", // Default value for business field
   },
   status: {
     type: String,
-    enum: ["Pending", "Accepted"],
+    default: "",
+    enum: ["Approved", "Rejected", "Pending", ""],
   },
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  carts: {
+    type: Array(Schema.Types.ObjectId),
+    ref: "Cart",
+    default: [],
   },
 });
 
