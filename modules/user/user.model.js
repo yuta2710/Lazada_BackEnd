@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: null, // Default value for business field
   },
+  status: {
+    type: String,
+    enum: ["Pending", "Accepted"],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

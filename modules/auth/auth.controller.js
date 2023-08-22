@@ -4,18 +4,45 @@ const { createToken } = require("../../utils/token.util");
 const userModel = require("../user/user.model");
 
 exports.register = asyncHandler(async (req, res, next) => {
-  const { name, email, phone_number, password, address, role } = req.body;
+  const { name, email, phone_number, password, business, address, role } =
+    req.body;
 
-  console.table([{ name, email, phone_number, password, address, role }]);
+  console.table([
+    { name, email, phone_number, password, business, address, role },
+  ]);
 
-  const user = await userModel.create({
-    name,
-    email,
-    phone_number,
-    password,
-    address,
-    role,
-  });
+  let user;
+
+  if (!(await userModel.findOne({ phone_number: phone_number }))) {
+    if (role === "seller" || business) {
+      user = await userModel.create({
+        name,
+        email,
+        phone_number,
+        password,
+        address,
+        role,
+        business,
+        status: "Pending",
+      });
+      // user.set("business", business);
+      await user.save();
+    } else {
+      user = await userModel.create({
+        name,
+        email,
+        phone_number,
+        password,
+        address,
+        role,
+      });
+    }
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "Duplicate error. A phone-number should be unique",
+    });
+  }
 
   const token = await createToken(user);
 

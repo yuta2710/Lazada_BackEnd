@@ -6,6 +6,7 @@ const {
   updateUser,
   deleteUser,
   updateSellerBusiness,
+  acceptUserStatus,
 } = require("./user.controller");
 const { protect, authorize } = require("../../middleware/auth.middleware");
 const router = express.Router(); // merge the relationship of entities
@@ -23,6 +24,8 @@ router
   .get(protect, authorize("admin"), getUser)
   .put(protect, authorize("admin"), updateUser)
   .delete(protect, authorize("admin"), deleteUser);
+
+router.route("/:id/status").put(protect, authorize("admin"), acceptUserStatus);
 
 router
   .route("/:id/business")

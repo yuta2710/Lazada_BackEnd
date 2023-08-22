@@ -5,12 +5,10 @@ exports.createUser = asyncHandler(async (req, res, next) => {
   const { name, email, phone_number, password, address, role, business } =
     req.body;
 
-  console.table([{ name, email, phone_number, password, address, role }]);
-
   let user;
 
   if (!(await userModel.findOne({ phone_number: phone_number }))) {
-    if (role === "seller" && business) {
+    if (role === "seller" || business) {
       user = await userModel.create({
         name,
         email,
@@ -19,8 +17,9 @@ exports.createUser = asyncHandler(async (req, res, next) => {
         address,
         role,
         business,
+        status: "Pending",
       });
-      user.set("business", business);
+      // user.set("business", business);
       await user.save();
     } else {
       user = await userModel.create({
@@ -42,6 +41,8 @@ exports.createUser = asyncHandler(async (req, res, next) => {
     success: true,
     data: user,
   });
+
+  return user;
 });
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
@@ -96,4 +97,37 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     success: true,
     data: {},
   });
+});
+
+exports.acceptUserStatus = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  let user = await userModel.findById(id);
+
+  if (!user) {
+    res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  if (user.role === "seller") {
+    console.log(user.role);
+    user = await userModel.findByIdAndUpdate(
+      id,
+      { status: status },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "You can only update account status for 'seller' role",
+    });
+  }
 });
