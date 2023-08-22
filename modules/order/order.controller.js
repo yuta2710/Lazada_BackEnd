@@ -7,9 +7,9 @@ const ErrorResponse = require("../../utils/error.util");
 
 exports.createOrder = asyncHandler(async (req, res, next) => {
   const { cartId } = req.params;
-  console.log(cartId);
   const cart = await cartModel.findById(cartId);
   let order;
+
   if (cart.products.length != 0) {
     order = await orderModel.create({ cartId, products: cart.products });
   } else {
@@ -28,11 +28,10 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
 exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
   const { orderId } = req.params;
   const { status } = req.body;
+  const validStatusValues = ["new", "accepted", "rejected"];
   let order;
 
   order = await orderModel.findById(orderId);
-
-  const validStatusValues = ["new", "accepted", "rejected"];
 
   if (order) {
     if (!validStatusValues.includes(status)) {

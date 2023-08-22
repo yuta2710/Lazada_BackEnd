@@ -7,10 +7,20 @@ const {
   deleteCategory,
   createMainCategory,
   createSubCategory,
+  getAllSubCategories,
+  deleteSubCategory,
 } = require("./category.controller");
 const router = express.Router();
 
 router.route("/").get(getAllCategories).post(createMainCategory);
+router
+  .route("/:parentId/subCategories")
+  .get(getAllSubCategories)
+  .post(createSubCategory);
+
+router
+  .route("/:parentId/subCategories/:subCategoryId")
+  .delete(deleteSubCategory);
 
 router
   .route("/:id")
@@ -18,5 +28,4 @@ router
   .put(updateCategory)
   .delete(deleteCategory);
 
-router.route("/:parentId").post(createSubCategory);
 module.exports = router;
