@@ -1,16 +1,42 @@
+const { default: mongoose } = require("mongoose");
 const asyncHandler = require("../../middleware/async.middleware");
 const categoryModel = require("./category.model");
 
-exports.createCategory = asyncHandler(async (req, res, next) => {
-  const { name, parentCat, products } = req.body;
+exports.createMainCategory = asyncHandler(async (req, res, next) => {
+  const { name } = req.body;
 
-  console.table({ name, parentCat, products });
+  console.table({ name });
 
-  const category = await categoryModel.create({ name, parentCat, products });
+  const category = await categoryModel.create({
+    name,
+  });
 
   res.status(201).json({
     success: true,
     data: category,
+  });
+});
+
+exports.createSubCategory = asyncHandler(async (req, res, next) => {
+  const { name } = req.body;
+  const { parentId } = req.params;
+
+  console.table({ name, parentId });
+
+  const newSubCategory = await categoryModel.create({
+    name,
+    parentCat: parentId,
+  });
+  const parentCategory = await categoryModel.findById(parentId);
+
+  if (parentCategory) {
+    parentCategory.childCat.push(newSubCategory._id);
+    await parentCategory.save();
+  }
+
+  res.status(201).json({
+    success: true,
+    data: newSubCategory,
   });
 });
 
@@ -24,8 +50,9 @@ exports.getAllCategories = asyncHandler(async (req, res, next) => {
 });
 
 exports.getCategory = asyncHandler(async (req, res, next) => {
-  const category = await categoryModel.findById(req.params.id).exec();
+  const category = await categoryModel.findById(req.params.id);
 
+  console.log(category);
   res.status(200).json({
     success: true,
     data: category,

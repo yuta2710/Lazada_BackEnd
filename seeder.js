@@ -8,6 +8,8 @@ dotenv.config();
 const User = require("./modules/user/user.model");
 const Product = require("./modules/product/product.model");
 const Category = require("./modules/category/category.model");
+const Cart = require("./modules/cart/cart.model");
+const Order = require("./modules/order/order.model");
 
 // Connected to MongoDB
 connectDB();
@@ -24,6 +26,14 @@ const deserializedCategory = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/categories.json`, "utf-8")
 );
 
+const deserializedCart = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/carts.json`, "utf-8")
+);
+
+const deserializedOrder = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/orders.json`, "utf-8")
+);
+
 const loadingLogger = () => {
   console.log("Loading.......".magenta.bold);
 };
@@ -33,6 +43,8 @@ const insertData = async () => {
     await User.create(deserializedUser);
     await Product.create(deserializedProduct);
     await Category.create(deserializedCategory);
+    await Cart.create(deserializedCart);
+    await Order.create(deserializedOrder);
     ~loadingLogger();
     console.log(
       `Inserted Data: `.green.underline + `<Successfully>`.green.inverse
@@ -49,6 +61,8 @@ const deleteData = async () => {
     await User.deleteMany();
     await Product.deleteMany();
     await Category.deleteMany();
+    await Cart.deleteMany();
+    await Order.deleteMany();
     loadingLogger();
     console.log(`Deleted Data: `.red.underline + `<Successfully>`.red.inverse);
     process.exit();

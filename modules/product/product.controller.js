@@ -31,8 +31,9 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
     data: product,
   });
 });
+
 exports.getProductsCategory = asyncHandler(async (req, res, next) => {
-  const categoryId = req.params.cid;
+  const categoryId = req.params.categoryId;
 
   console.log(categoryId);
 
@@ -49,8 +50,8 @@ exports.getProductsCategory = asyncHandler(async (req, res, next) => {
 
 exports.getProductByCategoryAndProductId = asyncHandler(
   async (req, res, next) => {
-    const catId = req.params.cid;
-    const prodId = req.params.pid;
+    const catId = req.params.categoryId;
+    const prodId = req.params.productId;
 
     const { name } = await categoryModel.findOne({ _id: catId });
     const product = await productModel.find({ _id: prodId, category: catId });
@@ -63,41 +64,70 @@ exports.getProductByCategoryAndProductId = asyncHandler(
   }
 );
 
-exports.getProductsByPrice = asyncHandler(async (req, res, next) => {});
-exports.getProductsByDateAdded = asyncHandler(async (req, res, next) => {});
-
-exports.getProductByName = asyncHandler(async (req, res, next) => {});
-
 exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
-  const { sid } = req.params;
-  const allProducts = await productModel.find();
+  const { sellerId } = req.params;
+  const products = await productModel.find({ sellerId });
 
-  console.log(allProducts);
+  console.log(sellerId);
+  console.log(products);
 
-  const productsBySellerId = allProducts.filter(
-    (product) => product.sellerId.toString() === sid
-  );
+  if (products.length === 0) {
+    return next(
+      new ErrorResponse(400, "Unable to get all products of this seller")
+    );
+  }
 
   res.status(200).json({
     success: true,
-    count: productsBySellerId.length,
-    data: productsBySellerId,
+    count: products.length,
+    data: products,
   });
 });
 
 exports.createProduct = asyncHandler(async (req, res, next) => {
-  const { title, description, price, image, dateAdded, category, quantity } =
-    req.body;
+  const { title, description, price, image, quantity } = req.body;
+  const { categoryId } = req.params;
 
-  const product = await productModel.create({
-    title,
-    description,
-    price,
-    image,
-    dateAdded,
-    category,
-    quantity,
-  });
+  let product;
+
+  product = await productModel.findOne({ title });
+
+  console.log(product);
+
+  if (product) {
+    // If product exists, update its quantity
+    product.quantity += quantity;
+    await product.save();
+  }
+  // If product doesn't exist, create a new one
+  else {
+    if (categoryId) {
+      product = await productModel.create({
+        title,
+        description,
+        price,
+        image,
+        category: categoryId,
+        quantity,
+      });
+    } else {
+      product = await productModel.create({
+        title,
+        description,
+        price,
+        image,
+        quantity,
+      });
+    }
+
+    const category = await categoryModel.findById(categoryId);
+
+    if (category) {
+      category.products.push(product._id);
+
+      await category.save();
+    }
+  }
 
   res.status(201).json({
     success: true,
@@ -105,7 +135,12 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.updateProduct = asyncHandler(async (req, res, next) => {});
+exports.updateProduct = asyncHandler(async (req, res, next) => {
+  const { title, description, price, quantity } = req.body;
+  const { categoryId } = req.params;
+
+  const product = await productModel.findByIdAndUpdate();
+});
 exports.deleteProduct = asyncHandler(async (req, res, next) => {});
 
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {

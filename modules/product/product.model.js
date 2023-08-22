@@ -3,7 +3,7 @@ const { default: mongoose, Schema } = require("mongoose");
 const ProductSchema = new mongoose.Schema({
   title: {
     type: String,
-    unique: true,
+    // unique: true,
     required: [true, "Please add a title"],
   },
   description: {
@@ -22,7 +22,6 @@ const ProductSchema = new mongoose.Schema({
   dateAdded: {
     type: Date,
     default: Date.now,
-    required: [true, "Please add a date added"],
   },
   quantity: {
     type: Number,
@@ -31,12 +30,12 @@ const ProductSchema = new mongoose.Schema({
   category: {
     type: Schema.Types.ObjectId,
     ref: "Category",
-    required: true,
+    default: null,
   },
   sellerId: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    default: null,
   },
 });
 

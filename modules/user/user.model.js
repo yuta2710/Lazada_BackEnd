@@ -52,10 +52,10 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  carts: {
-    type: Array(Schema.Types.ObjectId),
+  cart: {
+    type: Schema.Types.ObjectId,
     ref: "Cart",
-    default: [],
+    default: null,
   },
 });
 

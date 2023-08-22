@@ -17,18 +17,19 @@ const router = express.Router();
 router.use(protect);
 router.use(authorize("admin"));
 
-router.route("/").get(getAllProducts).post(createProduct);
+router.route("/").get(getAllProducts);
 
-router.route("/:sid").get(getProductsBySellerId);
+router.route("/sellers/:sellerId").get(getProductsBySellerId);
 
 router
-  .route("/:id")
-  .get(getProductById)
-  .put(updateProduct)
-  .delete(deleteProduct);
-
-router.route("/categories/:cid").get(getProductsCategory);
-router.route("/categories/:cid/:pid").get(getProductByCategoryAndProductId);
-router.route("/categories/:cid/:pid/photo").put(productPhotoUpload);
+  .route("/categories/:categoryId")
+  .get(getProductsCategory)
+  .post(createProduct);
+router
+  .route("/categories/:categoryId/:productId")
+  .get(getProductByCategoryAndProductId);
+router
+  .route("/categories/:categoryId/:productId/photo")
+  .put(productPhotoUpload);
 
 module.exports = router;
