@@ -57,6 +57,11 @@ const UserSchema = new mongoose.Schema({
     ref: "Cart",
     default: null,
   },
+  order: {
+    type: Schema.Types.ObjectId,
+    ref: "Order",
+    default: null,
+  },
 });
 
 UserSchema.pre("save", async function (next) {

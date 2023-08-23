@@ -5,18 +5,57 @@ const productModel = require("../product/product.model");
 const orderModel = require("../order/order.model");
 const ErrorResponse = require("../../utils/error.util");
 
+exports.getAllOrders = asyncHandler(async (req, res, next) => {
+  const orders = await orderModel.find().exec();
+
+  res.status(200).json({
+    success: true,
+    count: orders.length,
+    data: orders,
+  });
+});
+
+// exports.getMeOrder = asyncHandler(async (req, res, next) => {
+//   const user = await userModel.find(req.user._id);
+
+//   let order;
+//   if (user) {
+//     order = await orderModel.findById(user.order).exec();
+//   }
+
+//   res.status(200).json({
+//     success: true,
+//     count: orders.length,
+//     data: orders,
+//   });
+// });
+
 exports.createOrder = asyncHandler(async (req, res, next) => {
-  const { cartId } = req.params;
+  const userId = req.user._id;
+  const user = await userModel.findById(userId);
+
+  if (!user || user.role !== "customer" || !user.cart) {
+    return next(new ErrorResponse(400, "No valid cart found for the user"));
+  }
+
   const cart = await cartModel.findById(cartId);
+
   let order;
 
-  if (cart.products.length != 0) {
-    order = await orderModel.create({ cartId, products: cart.products });
-  } else {
+  if (cart.products.length === 0) {
     return next(
       new ErrorResponse(400, "Cannot create order with empty products")
     );
   }
+
+  order = await orderModel.create({
+    cartId: user.cart,
+    products: cart.products,
+  });
+
+  user.order = order._id;
+
+  await user.save();
 
   res.status(200).json({
     success: true,

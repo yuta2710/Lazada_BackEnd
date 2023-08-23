@@ -7,7 +7,8 @@
     "password": "123456",
     "phone_number": "0987654321",
     "address": "123 Main St, Cityville, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5d7a514b5d2c12c7449be067",
@@ -17,7 +18,8 @@
     "password": "123456",
     "phone_number": "0912345678",
     "address": "456 Elm Rd, Townburg, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5d7a514b5d2c12c7449be044",
@@ -27,7 +29,8 @@
     "password": "123456",
     "phone_number": "0845678901",
     "address": "789 Oak Ave, Villagetown, Country",
-    "carts": "642c4c70d0f9fb0001f4d040"
+    "cart": "642c4c70d0f9fb0001f4d040",
+    "order": "65f7d2d9d6a5e20001f4d04a"
   },
   {
     "_id": "5d7a514b5d2c12c7449be045",
@@ -37,7 +40,8 @@
     "password": "123456",
     "phone_number": "0865432190",
     "address": "987 Pine Lane, Hamletsville, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5d7a514b5d2c12c7449be046",
@@ -47,7 +51,8 @@
     "password": "123456",
     "phone_number": "0978901234",
     "address": "654 Birch Street, Villageton, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc031",
@@ -57,7 +62,8 @@
     "password": "123456",
     "phone_number": "0890123456",
     "address": "321 Maple Lane, Cityburg, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc032",
@@ -67,7 +73,8 @@
     "password": "123456",
     "phone_number": "0856789012",
     "address": "789 Elm Road, Villageton, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc033",
@@ -77,7 +84,8 @@
     "password": "123456",
     "phone_number": "0965432109",
     "address": "234 Oak Avenue, Townville, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc034",
@@ -87,7 +95,8 @@
     "password": "123456",
     "phone_number": "0901234567",
     "address": "567 Birch Street, Hamletburg, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc035",
@@ -97,7 +106,8 @@
     "password": "123456",
     "phone_number": "0956789012",
     "address": "890 Pine Lane, Cityton, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc036",
@@ -107,7 +117,8 @@
     "password": "123456",
     "phone_number": "0889012345",
     "address": "123 Maple Avenue, Townburg, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc037",
@@ -117,7 +128,8 @@
     "password": "123456",
     "phone_number": "0945678901",
     "address": "456 Elm Lane, Villagetown, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc038",
@@ -127,7 +139,8 @@
     "password": "123456",
     "phone_number": "0832109876",
     "address": "789 Oak Road, Cityville, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc039",
@@ -137,7 +150,8 @@
     "password": "123456",
     "phone_number": "0945289582",
     "address": "987 Pine Avenue, Villageton, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5c8a1d5b0190b214360dc040",
@@ -147,6 +161,7 @@
     "password": "123456",
     "phone_number": "0878901234",
     "address": "654 Birch Lane, Hamletville, Country",
-    "carts": ""
+    "cart": null,
+    "order": null
   }
 ]

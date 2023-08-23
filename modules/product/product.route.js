@@ -2,9 +2,6 @@ const express = require("express");
 const {
   createProduct,
   getAllProducts,
-  getProductById,
-  updateProduct,
-  deleteProduct,
   getProductsCategory,
   productPhotoUpload,
   getProductByCategoryAndProductId,

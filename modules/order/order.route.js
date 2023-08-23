@@ -7,8 +7,10 @@ router.use(protect);
 router.use(authorize("customer"));
 
 // router.route("/").get(getAllProducts).post(createProduct);
+router
+  .route("/")
+  .get(protect, authorize("admin"), getAllOrders)
+  .post(protect, authorize("customer"), createOrder);
 router.route("/:orderId").put(updateOrderStatus);
-
-router.route("/:cartId").post(createOrder);
 
 module.exports = router;

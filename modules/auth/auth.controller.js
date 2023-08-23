@@ -3,6 +3,11 @@ const ErrorResponse = require("../../utils/error.util");
 const { createToken } = require("../../utils/token.util");
 const userModel = require("../user/user.model");
 
+/**
+ * @des:     Register user
+ * @route:   POST /api/v1/auth/register
+ * @access:  Public
+ */
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, phone_number, password, business, address, role } =
     req.body;
@@ -52,6 +57,11 @@ exports.register = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Login user
+ * @route:   POST /api/v1/auth/login
+ * @access:  Public
+ */
 exports.login = asyncHandler(async (req, res, next) => {
   const { identifier, password } = req.body;
 
@@ -81,8 +91,8 @@ exports.login = asyncHandler(async (req, res, next) => {
       .findOne({ phone_number: identifier })
       .select("+password");
   }
-  // Check for user
 
+  // Check for user
   if (!user) {
     return next(new ErrorResponse(401, `Invalid credentials`));
   }
@@ -110,6 +120,11 @@ exports.login = asyncHandler(async (req, res, next) => {
     });
 });
 
+/**
+ * @des:     Get me
+ * @route:   GET /api/v1/auth/login
+ * @access:  Private
+ */
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user = await userModel.findById(req.user.id);
 

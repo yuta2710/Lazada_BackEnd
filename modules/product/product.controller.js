@@ -4,14 +4,6 @@ const ErrorResponse = require("../../utils/error.util");
 const productModel = require("./product.model");
 const userModel = require("../user/user.model");
 const categoryModel = require("../category/category.model");
-/**
-  GET /products
-- GET /products/{id}
-- GET /products/categories/{id} --> return all products contain that specific ID
-- POST /products
-- PUT /products/{id}
-- DELETE /products/{id}
- */
 
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await productModel.find().exec();
