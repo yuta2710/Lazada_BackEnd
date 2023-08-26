@@ -17,7 +17,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
         address,
         role,
         business,
-        status: "Pending",
+        status: "pending",
       });
       // user.set("business", business);
       await user.save();
