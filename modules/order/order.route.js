@@ -7,10 +7,6 @@ const {
 } = require("./order.controller");
 const router = express.Router();
 
-router.use(protect);
-router.use(authorize("customer"));
-
-// router.route("/").get(getAllProducts).post(createProduct);
 router
   .route("/")
   .get(protect, authorize("admin"), getAllOrders)
