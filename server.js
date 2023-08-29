@@ -6,6 +6,7 @@ const colors = require("colors");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const compression = require("compression");
+const helmet = require("helmet");
 
 const errorHandler = require("./middleware/error.middleware");
 const connectDB = require("./configs/db.config");
@@ -18,6 +19,13 @@ app.use(express.json());
 // Cookie Parser
 app.use(cookieParser());
 
+// Config security headers
+app.use(helmet());
+
+/**
+ * Reduce the size of files being sent from the server to the user's browser,
+ * Thereby improving page load speed and reducing network bandwidth usage
+ */
 app.use(compression());
 
 dotenv.config();

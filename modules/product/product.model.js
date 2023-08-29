@@ -42,7 +42,7 @@ const ProductSchema = new mongoose.Schema({
 
 ProductSchema.pre("save", async function (next) {
   console.log(
-    `\nInitializing slugify of <${this.title}>....`.yellow.underline.bold
+    `\n\nInitializing slugify of <${this.title}>....`.yellow.underline.bold
   );
   this.slug = slugify(this.title, { lower: true });
   console.log(`New slug is generated`.green.underline.bold);
