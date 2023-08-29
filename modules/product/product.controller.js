@@ -6,10 +6,20 @@ const userModel = require("../user/user.model");
 const categoryModel = require("../category/category.model");
 const upload = require("../../middleware/upload.middleware");
 
+/**
+ * @des:     Get all of products
+ * @route:   GET /api/v1/products
+ * @access:  Private: [Admin]
+ */
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.dynamicQueryResponse);
 });
 
+/**
+ * @des:     Get a product by ID
+ * @route:   GET /api/v1/products/:productId
+ * @access:  Private: [Admin]
+ */
 exports.getProductById = asyncHandler(async (req, res, next) => {
   const product = await productModel.findById(req.params.id).exec();
 
@@ -19,13 +29,29 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Get all products by category ID
+ * @route:   GET /api/v1/products/categories/:categoryId
+ * @access:  Private: [Admin]
+ */
 exports.getProductsCategory = asyncHandler(async (req, res, next) => {
   const categoryId = req.params.categoryId;
 
   console.log(categoryId);
 
   const products = await productModel.find({ category: categoryId });
+
+  if (products.length === 0) {
+    return next(
+      new ErrorResponse(
+        404,
+        `All products with category <${categoryId}> not found`
+      )
+    );
+  }
+
   const { name, childCat } = await categoryModel.findOne({ _id: categoryId });
+
   res.status(200).json({
     success: true,
     type: name,
@@ -35,6 +61,11 @@ exports.getProductsCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Get a product by category and ID
+ * @route:   GET /api/v1/products/categories/:categoryId/:productId
+ * @access:  Private: [Admin]
+ */
 exports.getProductByCategoryAndProductId = asyncHandler(
   async (req, res, next) => {
     const catId = req.params.categoryId;
@@ -51,16 +82,21 @@ exports.getProductByCategoryAndProductId = asyncHandler(
   }
 );
 
+/**
+ * @des:     Get all product by a seller ID
+ * @route:   GET /api/v1/products/sellers/:sellerId
+ * @access:  Private: [Admin]
+ */
 exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
   const { sellerId } = req.params;
   const products = await productModel.find({ sellerId });
 
-  console.log(sellerId);
-  console.log(products);
-
   if (products.length === 0) {
     return next(
-      new ErrorResponse(400, "Unable to get all products of this seller")
+      new ErrorResponse(
+        400,
+        `Unable to get all products of this seller <${sellerId}>`
+      )
     );
   }
 
@@ -71,6 +107,11 @@ exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Create a new product by category ID
+ * @route:   POST /api/v1/products/categories/:categoryId
+ * @access:  Private: [Admin]
+ */
 exports.createProduct = asyncHandler(async (req, res, next) => {
   const { title, description, price, image, quantity } = req.body;
   const { categoryId } = req.params;
@@ -122,6 +163,11 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Update a product by ....
+ * @route:   PUT /api/v1/products/.....
+ * @access:  Private: [Admin]
+ */
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   const { title, description, price, quantity } = req.body;
   const { categoryId } = req.params;
@@ -129,8 +175,18 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
   const product = await productModel.findByIdAndUpdate();
 });
 
+/**
+ * @des:     Delete a new product by ....
+ * @route:   DELETE /api/v1/products/.....
+ * @access:  Private: [Admin]
+ */
 exports.deleteProduct = asyncHandler(async (req, res, next) => {});
 
+/**
+ * @des:     Upload a new photo of product by category and product ID
+ * @route:   PUT /api/v1/products/categories/:categoryId/:productId/photo
+ * @access:  Private: [Admin]
+ */
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
   const { categoryId, productId } = req.params;
   const category = await categoryModel.findById(categoryId);

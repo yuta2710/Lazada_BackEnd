@@ -1,6 +1,11 @@
 const asyncHandler = require("../../middleware/async.middleware");
 const userModel = require("./user.model");
 
+/**
+ * @des:     Create a user
+ * @route:   POST /api/v1/users
+ * @access:  Private: [Admin]
+ */
 exports.createUser = asyncHandler(async (req, res, next) => {
   const { name, email, phone_number, password, address, role, business } =
     req.body;
@@ -45,10 +50,20 @@ exports.createUser = asyncHandler(async (req, res, next) => {
   return user;
 });
 
+/**
+ * @des:     Get all of users
+ * @route:   POST /api/v1/users
+ * @access:  Private: [Admin]
+ */
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.dynamicQueryResponse);
 });
 
+/**
+ * @des:     Get a user by ID
+ * @route:   GET /api/v1/users/:id
+ * @access:  Private: [Admin]
+ */
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await userModel.findById(req.params.id).exec();
 
@@ -58,6 +73,11 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Update a user by ID
+ * @route:   PUT /api/v1/users/:id
+ * @access:  Private: [Admin]
+ */
 exports.updateUser = asyncHandler(async (req, res, next) => {
   const user = await userModel
     .findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -69,6 +89,11 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Update a business of seller by ID
+ * @route:   PUT /api/v1/users/:id
+ * @access:  Protect (Seller/Admin)
+ */
 exports.updateSellerBusiness = asyncHandler(async (req, res, next) => {
   const { business } = req.body;
   let user;
@@ -89,6 +114,11 @@ exports.updateSellerBusiness = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Remove a user by ID
+ * @route:   DELETE /api/v1/users/:id
+ * @access:  Private: [Admin]
+ */
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   await userModel.findByIdAndDelete(req.params.id);
 
@@ -98,6 +128,11 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Accept a user status by new status and ID
+ * @route:   PUT /api/v1/users/:id
+ * @access:  Private: [Admin]
+ */
 exports.acceptUserStatus = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { status } = req.body;
