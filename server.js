@@ -5,7 +5,6 @@ const morgan = require("morgan");
 const colors = require("colors");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const fileUpload = require("express-fileupload");
 
 const errorHandler = require("./middleware/error.middleware");
 const connectDB = require("./configs/db.config");
@@ -30,13 +29,12 @@ const cart = require("./modules/cart/cart.route");
 const order = require("./modules/order/order.route");
 
 app.use(cors());
-app.use(fileUpload());
-
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users);
 app.use(`/api/${process.env.API_VERSION_1}/auth`, auth);
 app.use(`/api/${process.env.API_VERSION_1}/categories`, category);
+app.use(`/api/${process.env.API_VERSION_1}/carts`, cart);
 app.use(`/api/${process.env.API_VERSION_1}/products`, product);
 app.use(`/api/${process.env.API_VERSION_1}/orders`, order);
 

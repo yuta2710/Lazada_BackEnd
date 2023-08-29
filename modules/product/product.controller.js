@@ -4,6 +4,7 @@ const ErrorResponse = require("../../utils/error.util");
 const productModel = require("./product.model");
 const userModel = require("../user/user.model");
 const categoryModel = require("../category/category.model");
+const upload = require("../../middleware/upload.middleware");
 
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await productModel.find().exec();
@@ -133,61 +134,58 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 
   const product = await productModel.findByIdAndUpdate();
 });
+
 exports.deleteProduct = asyncHandler(async (req, res, next) => {});
 
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
-  const category = await categoryModel.findById(req.params.cid);
+  const { categoryId, productId } = req.params;
+  const category = await categoryModel.findById(categoryId);
 
   if (!category) {
-    return next(new ErrorResponse(400, `Product not found`));
+    return next(new ErrorResponse(400, `Category not found`));
   }
 
-  const product = await productModel.findById(req.params.pid);
+  const product = await productModel.findById(productId);
 
   if (!product) {
     return next(new ErrorResponse(400, `Product not found`));
   }
 
-  if (!req.files) {
-    return next(new ErrorResponse(400, "Please upload a file"));
-  }
-
   console.log("Req.files = ", req.files);
+  console.log(file);
 
-  const file = req.files.file;
+  // if (
+  //   !file.mimetype.startsWith("image/png") &&
+  //   !file.mimetype.startsWith("image/jpg") &&
+  //   !file.mimetype.startsWith("image/jpeg")
+  // ) {
+  //   // console.log(file.mimetype.startsWith("image/jpeg"));
+  //   return next(new ErrorResponse(400, "Please upload an image"));
+  // }
 
-  if (
-    !file.mimetype.startsWith("image/png") &&
-    !file.mimetype.startsWith("image/jpg") &&
-    !file.mimetype.startsWith("image/jpeg")
-  ) {
-    // console.log(file.mimetype.startsWith("image/jpeg"));
-    return next(new ErrorResponse(400, "Please upload an image"));
-  }
+  // if (file.size > process.env.MAX_FILE_UPLOAD) {
+  //   return next(new ErrorResponse(400, "Please upload a file less than 1MB"));
+  // }
 
-  if (file.size > process.env.MAX_FILE_UPLOAD) {
-    return next(new ErrorResponse(400, "Please upload a file less than 1MB"));
-  }
+  // file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+  // console.log(file.name);
 
-  file.name = `photo_${product._id}${path.parse(file.name).ext}`;
-  console.log(file.name);
+  // file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+  //   console.log(process.env.FILE_UPLOAD_PATH);
+  //   if (err) {
+  //     console.log(err.stack.red);
+  //     return next(new ErrorResponse("Problem with file upload", 500));
+  //   }
 
-  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-    console.log(process.env.FILE_UPLOAD_PATH);
-    if (err) {
-      console.log(err.stack.red);
-      return next(new ErrorResponse("Problem with file upload", 500));
-    }
+  //   await productModel.findByIdAndUpdate(
+  //     req.params.pid,
+  //     { image: file.name },
+  //     { new: true }
+  //   );
 
-    await productModel.findByIdAndUpdate(
-      req.params.pid,
-      { image: file.name },
-      { new: true }
-    );
-
-    res.status(200).json({
-      success: true,
-      data: await productModel.findById(req.params.pid),
-    });
-  });
+  //   res.status(200).json({
+  //     success: true,
+  //     data: await productModel.findById(req.params.pid),
+  //   });
+  // });
 });

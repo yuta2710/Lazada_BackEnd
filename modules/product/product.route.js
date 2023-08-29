@@ -7,12 +7,14 @@ const {
   getProductByCategoryAndProductId,
   getProductsBySellerId,
 } = require("./product.controller");
+const upload = require("../../middleware/upload.middleware");
 const { protect, authorize } = require("../../middleware/auth.middleware");
 
 const router = express.Router();
 
 router.use(protect);
 router.use(authorize("admin"));
+// router.use(upload.single("image"));
 
 router.route("/").get(getAllProducts);
 

@@ -4,4 +4,5 @@ const dynamicQueryResponse = (model, populate) => {
   const cloneQuery = { ...req.query };
 
   console.log(cloneQuery);
+  const removeFields = [""];
 };
