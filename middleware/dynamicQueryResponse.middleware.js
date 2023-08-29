@@ -1,10 +1,6 @@
 const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
   let query;
-
   const cloneQuery = { ...req.query };
-
-  console.log(cloneQuery);
-
   const removeFields = ["select", "sort", "page", "limit"];
 
   removeFields.forEach((field) => delete cloneQuery[field]);
@@ -42,7 +38,6 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10) || 10; // ten per page
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
-
   const total = await model.countDocuments();
 
   query = query.skip(startIndex).limit(limit);
