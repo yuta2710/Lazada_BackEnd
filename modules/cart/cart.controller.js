@@ -6,13 +6,7 @@ const productModel = require("../product/product.model");
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
   const { title, quantity } = req.body;
   const { cartId } = req.params;
-
-  console.log(req.user);
-
-  console.table({ title, quantity });
   const product = await productModel.findOne({ title });
-
-  console.log(product);
 
   if (product) {
     let user = await userModel.findById(req.user._id);
@@ -29,9 +23,6 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
         await user.save();
       } else {
         const cart = await cartModel.findById(cartId);
-
-        console.log(cart);
-
         const existProdIndex = cart.products.findIndex((prod) =>
           prod.productId.equals(product._id)
         );
@@ -106,7 +97,7 @@ exports.removeProductFromCart = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getCartByCartId = asyncHandler(async (req, res, next) => {
+exports.getCartById = asyncHandler(async (req, res, next) => {
   console.log(req.user);
   const { cartId } = req.params;
   if (req.user) {
@@ -131,6 +122,8 @@ exports.getCartByCartId = asyncHandler(async (req, res, next) => {
   }
 });
 exports.getCart = asyncHandler(async (req, res, next) => {});
-exports.getCarts = asyncHandler(async (req, res, next) => {});
+exports.getCarts = asyncHandler(async (req, res, next) => {
+  res.status(200).json(res.dynamicQueryResponse);
+});
 exports.updateCart = asyncHandler(async (req, res, next) => {});
 exports.deleteCart = asyncHandler(async (req, res, next) => {});

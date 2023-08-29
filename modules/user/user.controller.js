@@ -46,13 +46,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 });
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-  const users = await userModel.find();
-
-  res.status(200).json({
-    success: true,
-    count: users.length,
-    data: users,
-  });
+  res.status(200).json(res.dynamicQueryResponse);
 });
 
 exports.getUser = asyncHandler(async (req, res, next) => {

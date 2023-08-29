@@ -3,6 +3,9 @@ const asyncHandler = require("../../middleware/async.middleware");
 const categoryModel = require("./category.model");
 const ErrorResponse = require("../../utils/error.util");
 
+exports.getAllCategories = asyncHandler(async (req, res, next) => {
+  res.status(200).json(res.dynamicQueryResponse);
+});
 exports.createMainCategory = asyncHandler(async (req, res, next) => {
   const { name } = req.body;
 
@@ -41,16 +44,6 @@ exports.createSubCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getAllCategories = asyncHandler(async (req, res, next) => {
-  const categories = await categoryModel.find().exec();
-
-  res.status(200).json({
-    success: true,
-    count: categories.length,
-    data: categories,
-  });
-});
-
 exports.getCategory = asyncHandler(async (req, res, next) => {
   const category = await categoryModel.findById(req.params.id);
 
@@ -65,9 +58,9 @@ exports.getAllSubCategories = asyncHandler(async (req, res, next) => {
   const { parentId } = req.params;
   const category = await categoryModel.findById(parentId);
 
-  console.log(category);
   res.status(200).json({
     success: true,
+    parentCat: parentId,
     data: category.childCat,
   });
 });
@@ -76,7 +69,6 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
   const category = await categoryModel
     .findByIdAndUpdate(req.params.id, req.body, { new: true })
     .exec();
-
   res.status(200).json({
     success: true,
     data: category,

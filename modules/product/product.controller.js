@@ -7,13 +7,7 @@ const categoryModel = require("../category/category.model");
 const upload = require("../../middleware/upload.middleware");
 
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
-  const products = await productModel.find().exec();
-
-  res.status(200).json({
-    success: true,
-    count: products.length,
-    data: products,
-  });
+  res.status(200).json(res.dynamicQueryResponse);
 });
 
 exports.getProductById = asyncHandler(async (req, res, next) => {
