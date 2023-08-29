@@ -18,12 +18,14 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
   /**
    * @Field: Select
    */
-
   if (req.query.select) {
     const fields = req.query.select.split(",").join(" ");
     query = query.select(fields);
   }
 
+  /**
+   * @Field: Sort
+   */
   if (req.query.sort) {
     const by = req.query.sort.split(",").join(" ");
     query = query.sort(by);
@@ -32,9 +34,12 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
   }
 
   /**
-   * @Field: Pagination
+   * @Field: Page
    */
   const page = parseInt(req.query.page, 10) || 1;
+  /**
+   * @Field: Limit
+   */
   const limit = parseInt(req.query.limit, 10) || 10; // ten per page
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
@@ -48,14 +53,19 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
 
   // Executing query
   const retrievers = await query;
+
+  // Pagination
   const pagination = {};
 
+  // Set next page
   if (endIndex < total) {
     pagination.next = {
       page: page + 1,
       limit,
     };
   }
+
+  // Set previous page
   if (startIndex > 0) {
     pagination.prev = {
       page: page - 1,
