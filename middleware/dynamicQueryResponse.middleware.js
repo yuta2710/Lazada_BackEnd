@@ -5,7 +5,7 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
 
   console.log(cloneQuery);
 
-  const removeFields = ["page", "limit"];
+  const removeFields = ["select", "sort", "page", "limit"];
 
   removeFields.forEach((field) => delete cloneQuery[field]);
 
@@ -18,6 +18,22 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
 
   // Searching the resources
   query = model.find(JSON.parse(queryStr));
+
+  /**
+   * @Field: Select
+   */
+
+  if (req.query.select) {
+    const fields = req.query.select.split(",").join(" ");
+    query = query.select(fields);
+  }
+
+  if (req.query.sort) {
+    const by = req.query.sort.split(",").join(" ");
+    query = query.sort(by);
+  } else {
+    query = query.sort("-createdAt");
+  }
 
   /**
    * @Field: Pagination
