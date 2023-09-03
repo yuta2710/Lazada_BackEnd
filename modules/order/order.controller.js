@@ -5,6 +5,11 @@ const productModel = require('../product/product.model')
 const orderModel = require('../order/order.model')
 const ErrorResponse = require('../../utils/error.util')
 
+/**
+ * @des:     Get all of orders
+ * @route:   GET /api/v1/orders
+ * @access:  Private: [Admin]
+ */
 exports.getAllOrders = asyncHandler(async (req, res, next) => {
   const orders = await orderModel.find().exec()
 
@@ -15,6 +20,11 @@ exports.getAllOrders = asyncHandler(async (req, res, next) => {
   })
 })
 
+/**
+ * @des:     Get my orders
+ * @route:   GET /api/v1/orders/............
+ * @access:  Private: [All]
+ */
 // exports.getMeOrder = asyncHandler(async (req, res, next) => {
 //   const user = await userModel.find(req.user._id);
 
@@ -30,6 +40,11 @@ exports.getAllOrders = asyncHandler(async (req, res, next) => {
 //   });
 // });
 
+/**
+ * @des:     Create a new order
+ * @route:   POST /api/v1/orders
+ * @access:  Private: [All]
+ */
 exports.createOrder = asyncHandler(async (req, res, next) => {
   const userId = req.user._id
   const user = await userModel.findById(userId)
@@ -64,6 +79,11 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
   })
 })
 
+/**
+ * @des:     Update an order's status
+ * @route:   POST /api/v1/orders
+ * @access:  Private: [All]
+ */
 exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
   const { orderId } = req.params
   const { status } = req.body

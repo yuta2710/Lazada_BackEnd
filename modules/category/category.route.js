@@ -11,8 +11,13 @@ const {
   deleteSubCategory,
 } = require("./category.controller");
 const router = express.Router();
+const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
+const categoryModel = require("./category.model");
 
-router.route("/").get(getAllCategories).post(createMainCategory);
+router
+  .route("/")
+  .get(dynamicQueryResponse(categoryModel), getAllCategories)
+  .post(createMainCategory);
 router
   .route("/:parentId/subCategories")
   .get(getAllSubCategories)

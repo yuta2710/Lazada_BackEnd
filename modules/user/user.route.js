@@ -9,14 +9,18 @@ const {
   acceptUserStatus,
 } = require("./user.controller");
 const { protect, authorize } = require("../../middleware/auth.middleware");
+const userModel = require("./user.model");
 const router = express.Router(); // merge the relationship of entities
-
-// router.use(protect);
-// router.use(authorize("admin"));
+const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
 
 router
   .route("/")
-  .get(protect, authorize("admin"), getAllUsers)
+  .get(
+    protect,
+    authorize("admin"),
+    dynamicQueryResponse(userModel),
+    getAllUsers
+  )
   .post(protect, authorize("admin"), createUser);
 
 router
