@@ -4,10 +4,11 @@ const router = express.Router();
 const {
   createProduct,
   getAllProducts,
-  getProductsCategory,
+  getProductsByCategoryID,
   productPhotoUpload,
   getProductByCategoryAndProductId,
   getProductsBySellerId,
+  getProductsByCategoryName,
 } = require("./product.controller");
 const upload = require("../../middleware/upload.middleware");
 const { protect, authorize } = require("../../middleware/auth.middleware");
@@ -26,8 +27,11 @@ router
 
 router
   .route("/categories/:categoryId")
-  .get(getProductsCategory)
+  .get(getProductsByCategoryID)
   .post(protect, authorize("seller"), createProduct);
+
+// router.route("/categories/:name").get(getProductsByCategoryName);
+
 router
   .route("/categories/:categoryId/:productId")
   .get(protect, authorize("seller"), getProductByCategoryAndProductId);

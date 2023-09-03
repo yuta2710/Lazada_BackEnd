@@ -34,7 +34,7 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
  * @route:   GET /api/v1/products/categories/:categoryId
  * @access:  Private: [Admin]
  */
-exports.getProductsCategory = asyncHandler(async (req, res, next) => {
+exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
   const categoryId = req.params.categoryId;
 
   console.log(categoryId);
@@ -60,6 +60,41 @@ exports.getProductsCategory = asyncHandler(async (req, res, next) => {
     data: products,
   });
 });
+
+// exports.getProductsByCategoryName = asyncHandler(async (req, res, next) => {
+//   const catName = req.params.name;
+
+//   console.log(catName);
+
+//   const category = await categoryModel.findOne({ name: catName });
+
+//   console.log(category);
+
+//   if (!category) {
+//     return next(new ErrorResponse(404, `Category ${catName} not found`));
+//   }
+
+//   const products = await productModel.find({ category: category._id });
+
+//   if (products.length === 0) {
+//     return next(
+//       new ErrorResponse(
+//         404,
+//         `All products with category <${category._id}> not found`
+//       )
+//     );
+//   }
+
+//   const { name, childCat } = await categoryModel.findOne({ _id: categoryId });
+
+//   res.status(200).json({
+//     success: true,
+//     type: name,
+//     count: products.length,
+//     subCategories: await categoryModel.findById({ _id: childCat }).exec().name,
+//     data: products,
+//   });
+// });
 
 /**
  * @des:     Get a product by category and ID
