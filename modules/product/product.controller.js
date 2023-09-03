@@ -66,9 +66,11 @@ exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
 
 //   console.log(catName);
 
-//   const category = await categoryModel.findOne({ name: catName });
+//   const category = await categoryModel.find();
 
 //   console.log(category);
+
+//   // console.log(category);
 
 //   if (!category) {
 //     return next(new ErrorResponse(404, `Category ${catName} not found`));
@@ -91,7 +93,7 @@ exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
 //     success: true,
 //     type: name,
 //     count: products.length,
-//     subCategories: await categoryModel.findById({ _id: childCat }).exec().name,
+//     // subCategories: await categoryModel.findById({ _id: childCat }).exec().name,
 //     data: products,
 //   });
 // });
