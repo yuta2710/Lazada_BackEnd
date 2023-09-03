@@ -4,17 +4,22 @@ const ErrorResponse = require("../../utils/error.util");
 const productModel = require("./product.model");
 const userModel = require("../user/user.model");
 const categoryModel = require("../category/category.model");
+const upload = require("../../middleware/upload.middleware");
 
+/**
+ * @des:     Get all of products
+ * @route:   GET /api/v1/products
+ * @access:  Private: [Admin]
+ */
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
-  const products = await productModel.find().exec();
-
-  res.status(200).json({
-    success: true,
-    count: products.length,
-    data: products,
-  });
+  res.status(200).json(res.dynamicQueryResponse);
 });
 
+/**
+ * @des:     Get a product by ID
+ * @route:   GET /api/v1/products/:productId
+ * @access:  Private: [Admin]
+ */
 exports.getProductById = asyncHandler(async (req, res, next) => {
   const product = await productModel.findById(req.params.id).exec();
 
@@ -24,13 +29,29 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Get all products by category ID
+ * @route:   GET /api/v1/products/categories/:categoryId
+ * @access:  Private: [Admin]
+ */
 exports.getProductsCategory = asyncHandler(async (req, res, next) => {
   const categoryId = req.params.categoryId;
 
   console.log(categoryId);
 
   const products = await productModel.find({ category: categoryId });
+
+  if (products.length === 0) {
+    return next(
+      new ErrorResponse(
+        404,
+        `All products with category <${categoryId}> not found`
+      )
+    );
+  }
+
   const { name, childCat } = await categoryModel.findOne({ _id: categoryId });
+
   res.status(200).json({
     success: true,
     type: name,
@@ -40,6 +61,11 @@ exports.getProductsCategory = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Get a product by category and ID
+ * @route:   GET /api/v1/products/categories/:categoryId/:productId
+ * @access:  Private: [Admin]
+ */
 exports.getProductByCategoryAndProductId = asyncHandler(
   async (req, res, next) => {
     const catId = req.params.categoryId;
@@ -56,16 +82,21 @@ exports.getProductByCategoryAndProductId = asyncHandler(
   }
 );
 
+/**
+ * @des:     Get all product by a seller ID
+ * @route:   GET /api/v1/products/sellers/:sellerId
+ * @access:  Private: [Admin]
+ */
 exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
   const { sellerId } = req.params;
   const products = await productModel.find({ sellerId });
 
-  console.log(sellerId);
-  console.log(products);
-
   if (products.length === 0) {
     return next(
-      new ErrorResponse(400, "Unable to get all products of this seller")
+      new ErrorResponse(
+        400,
+        `Unable to get all products of this seller <${sellerId}>`
+      )
     );
   }
 
@@ -76,6 +107,11 @@ exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Create a new product by category ID
+ * @route:   POST /api/v1/products/categories/:categoryId
+ * @access:  Private: [Admin]
+ */
 exports.createProduct = asyncHandler(async (req, res, next) => {
   const { title, description, price, image, quantity } = req.body;
   const { categoryId } = req.params;
@@ -127,67 +163,79 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @des:     Update a product by ....
+ * @route:   PUT /api/v1/products/.....
+ * @access:  Private: [Admin]
+ */
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   const { title, description, price, quantity } = req.body;
   const { categoryId } = req.params;
 
   const product = await productModel.findByIdAndUpdate();
 });
+
+/**
+ * @des:     Delete a new product by ....
+ * @route:   DELETE /api/v1/products/.....
+ * @access:  Private: [Admin]
+ */
 exports.deleteProduct = asyncHandler(async (req, res, next) => {});
 
+/**
+ * @des:     Upload a new photo of product by category and product ID
+ * @route:   PUT /api/v1/products/categories/:categoryId/:productId/photo
+ * @access:  Private: [Admin]
+ */
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
-  const category = await categoryModel.findById(req.params.cid);
+  const { categoryId, productId } = req.params;
+  const category = await categoryModel.findById(categoryId);
 
   if (!category) {
-    return next(new ErrorResponse(400, `Product not found`));
+    return next(new ErrorResponse(400, `Category not found`));
   }
 
-  const product = await productModel.findById(req.params.pid);
+  const product = await productModel.findById(productId);
 
   if (!product) {
     return next(new ErrorResponse(400, `Product not found`));
   }
 
-  if (!req.files) {
-    return next(new ErrorResponse(400, "Please upload a file"));
-  }
-
   console.log("Req.files = ", req.files);
+  console.log(file);
 
-  const file = req.files.file;
+  // if (
+  //   !file.mimetype.startsWith("image/png") &&
+  //   !file.mimetype.startsWith("image/jpg") &&
+  //   !file.mimetype.startsWith("image/jpeg")
+  // ) {
+  //   // console.log(file.mimetype.startsWith("image/jpeg"));
+  //   return next(new ErrorResponse(400, "Please upload an image"));
+  // }
 
-  if (
-    !file.mimetype.startsWith("image/png") &&
-    !file.mimetype.startsWith("image/jpg") &&
-    !file.mimetype.startsWith("image/jpeg")
-  ) {
-    // console.log(file.mimetype.startsWith("image/jpeg"));
-    return next(new ErrorResponse(400, "Please upload an image"));
-  }
+  // if (file.size > process.env.MAX_FILE_UPLOAD) {
+  //   return next(new ErrorResponse(400, "Please upload a file less than 1MB"));
+  // }
 
-  if (file.size > process.env.MAX_FILE_UPLOAD) {
-    return next(new ErrorResponse(400, "Please upload a file less than 1MB"));
-  }
+  // file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+  // console.log(file.name);
 
-  file.name = `photo_${product._id}${path.parse(file.name).ext}`;
-  console.log(file.name);
+  // file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+  //   console.log(process.env.FILE_UPLOAD_PATH);
+  //   if (err) {
+  //     console.log(err.stack.red);
+  //     return next(new ErrorResponse("Problem with file upload", 500));
+  //   }
 
-  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-    console.log(process.env.FILE_UPLOAD_PATH);
-    if (err) {
-      console.log(err.stack.red);
-      return next(new ErrorResponse("Problem with file upload", 500));
-    }
+  //   await productModel.findByIdAndUpdate(
+  //     req.params.pid,
+  //     { image: file.name },
+  //     { new: true }
+  //   );
 
-    await productModel.findByIdAndUpdate(
-      req.params.pid,
-      { image: file.name },
-      { new: true }
-    );
-
-    res.status(200).json({
-      success: true,
-      data: await productModel.findById(req.params.pid),
-    });
-  });
+  //   res.status(200).json({
+  //     success: true,
+  //     data: await productModel.findById(req.params.pid),
+  //   });
+  // });
 });

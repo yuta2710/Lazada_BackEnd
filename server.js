@@ -5,7 +5,8 @@ const morgan = require("morgan");
 const colors = require("colors");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const fileUpload = require("express-fileupload");
+const compression = require("compression");
+const helmet = require("helmet");
 
 const errorHandler = require("./middleware/error.middleware");
 const connectDB = require("./configs/db.config");
@@ -18,6 +19,15 @@ app.use(express.json());
 // Cookie Parser
 app.use(cookieParser());
 
+// Config security headers
+app.use(helmet());
+
+/**
+ * Reduce the size of files being sent from the server to the user's browser,
+ * Thereby improving page load speed and reducing network bandwidth usage
+ */
+app.use(compression());
+
 dotenv.config();
 
 connectDB();
@@ -28,17 +38,18 @@ const category = require("./modules/category/category.route");
 const product = require("./modules/product/product.route");
 const cart = require("./modules/cart/cart.route");
 const order = require("./modules/order/order.route");
+const system = require("./modules/system/system.route");
 
 app.use(cors());
-app.use(fileUpload());
-
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users);
 app.use(`/api/${process.env.API_VERSION_1}/auth`, auth);
 app.use(`/api/${process.env.API_VERSION_1}/categories`, category);
+app.use(`/api/${process.env.API_VERSION_1}/carts`, cart);
 app.use(`/api/${process.env.API_VERSION_1}/products`, product);
 app.use(`/api/${process.env.API_VERSION_1}/orders`, order);
+app.use(`/api/${process.env.API_VERSION_1}/system`, system);
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));

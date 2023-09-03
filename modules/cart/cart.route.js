@@ -2,25 +2,28 @@ const express = require("express");
 const { protect, authorize } = require("../../middleware/auth.middleware");
 const {
   addProductToCart,
-  getCartByCartId,
+  getCartById,
   removeProductFromCart,
   deleteCart,
   getCarts,
 } = require("./cart.controller");
 
 const router = express.Router();
-
-router.use(protect);
-router.use(authorize("customer"));
+const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
+const cartModel = require("./cart.model");
 
 // router.route("/").get(getAllProducts).post(createProduct);
 
-router.route("/").get(getCarts);
+router
+  .route("/")
+  .get(protect, authorize("admin"), dynamicQueryResponse(cartModel), getCarts);
 router
   .route("/:cartId")
-  .get(getCartByCartId)
-  .post(addProductToCart)
-  .delete(deleteCart);
-router.route("/:cartId/:productId").delete(removeProductFromCart);
+  .get(protect, authorize("admin"), getCartById)
+  .post(protect, authorize("customer", "admin"), addProductToCart)
+  .delete(protect, authorize("customer", "admin"), deleteCart);
+router
+  .route("/:cartId/:productId")
+  .delete(protect, authorize("customer", "admin"), removeProductFromCart);
 
 module.exports = router;

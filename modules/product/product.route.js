@@ -1,4 +1,6 @@
 const express = require("express");
+const router = express.Router();
+
 const {
   createProduct,
   getAllProducts,
@@ -7,14 +9,16 @@ const {
   getProductByCategoryAndProductId,
   getProductsBySellerId,
 } = require("./product.controller");
+const upload = require("../../middleware/upload.middleware");
 const { protect, authorize } = require("../../middleware/auth.middleware");
-
-const router = express.Router();
+const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
+const productModel = require("./product.model");
 
 router.use(protect);
 router.use(authorize("admin"));
+// router.use(upload.single("image"));
 
-router.route("/").get(getAllProducts);
+router.route("/").get(dynamicQueryResponse(productModel), getAllProducts);
 
 router.route("/sellers/:sellerId").get(getProductsBySellerId);
 

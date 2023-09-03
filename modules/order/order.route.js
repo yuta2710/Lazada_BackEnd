@@ -7,14 +7,10 @@ const {
 } = require('./order.controller')
 const router = express.Router()
 
-router.use(protect)
-router.use(authorize('customer'))
-
-// router.route("/").get(getAllProducts).post(createProduct);
 router
   .route('/')
   .get(protect, authorize('admin'), getAllOrders)
-  .post(protect, authorize('customer'), createOrder)
+  .post(protect, authorize('admin', 'customer', 'seller'), createOrder)
 router.route('/:orderId').put(updateOrderStatus)
 
 module.exports = router
