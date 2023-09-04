@@ -73,6 +73,8 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
     };
   }
 
+  pagination.numberOfPage = Math.ceil(total / limit);
+
   res.dynamicQueryResponse = {
     success: true,
     count: retrievers.length,
