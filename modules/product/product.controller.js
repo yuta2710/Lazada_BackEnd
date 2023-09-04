@@ -36,27 +36,20 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
  */
 exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
   const categoryId = req.params.categoryId;
-
-  console.log(categoryId);
-
   const products = await productModel.find({ category: categoryId });
-
-  if (products.length === 0) {
-    return next(
-      new ErrorResponse(
-        404,
-        `All products with category <${categoryId}> not found`
-      )
-    );
-  }
-
   const { name, childCat } = await categoryModel.findOne({ _id: categoryId });
+  const productsOfSubCategories = {};
 
+  for (let i = 0; i < childCat.length; i++) {
+    const childId = childCat[i];
+    const products = await productModel.find({ category: childId });
+    productsOfSubCategories[childId] = products;
+  }
   res.status(200).json({
     success: true,
     type: name,
     count: products.length,
-    subCategories: childCat,
+    subCategories: productsOfSubCategories,
     data: products,
   });
 });
