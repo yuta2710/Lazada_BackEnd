@@ -54,6 +54,7 @@ const dynamicQueryResponse = (model, populate) => async (req, res, next) => {
   // Executing query
   const retrievers = await query;
 
+
   // Pagination
   const pagination = {};
 
