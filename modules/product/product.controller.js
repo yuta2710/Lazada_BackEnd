@@ -37,19 +37,26 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
  */
 exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
   const categoryId = req.params.categoryId;
+
+  const category = await categoryModel
+    .findOne({ _id: categoryId })
+    .populate("childCat");
+
   const products = await productModel.find({ category: categoryId });
-  const { name, childCat } = await categoryModel.findOne({ _id: categoryId });
+
   const productsOfSubCategories = {};
 
-  for (let i = 0; i < childCat.length; i++) {
-    const childId = childCat[i];
-    const products = await productModel.find({ category: childId });
-    productsOfSubCategories[childId] = products;
+  for (let i = 0; i < category.childCat.length; i++) {
+    const childId = category.childCat[i]._id;
+    const childCategory = category.childCat[i].name;
+    const childProducts = await productModel.find({ category: childId });
+
+    productsOfSubCategories[childCategory] = childProducts;
   }
 
   res.status(200).json({
     success: true,
-    type: name,
+    type: category.name,
     count: products.length,
     subCategories: productsOfSubCategories,
     data: products,
@@ -202,6 +209,7 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
     const size = req.file.size;
 
     if (extension !== "png" && extension !== "jpeg" && extension !== "jpg") {
+      // Prevent save the image to the folder
       fs.unlinkSync(req.file.path);
       return next(new ErrorResponse(500, `Please upload an image`));
     }

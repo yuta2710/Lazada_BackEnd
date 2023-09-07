@@ -21,6 +21,7 @@ router
     dynamicQueryResponse(productModel, populateConfigurations.path.product),
     getAllProducts
   );
+
 router.route("/:productId").get(getProductById);
 
 router
@@ -35,6 +36,7 @@ router
 router
   .route("/categories/:categoryId/:productId")
   .get(protect, authorize("seller"), getProductByCategoryAndProductId);
+
 router
   .route("/categories/:categoryId/:productId/photo")
   .put(protect, authorize("seller"), productPhotoUpload);
