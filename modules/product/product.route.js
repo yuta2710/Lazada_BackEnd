@@ -4,21 +4,18 @@ const router = express.Router()
 const {
   createProduct,
   getAllProducts,
-  getProductsCategory,
+  getProductsByCategoryID,
   productPhotoUpload,
   getProductByCategoryAndProductId,
-  getProductsBySellerId
+  getProductsBySellerId,
+  getProductById
 } = require('./product.controller')
-const upload = require('../../middleware/upload.middleware')
 const { protect, authorize } = require('../../middleware/auth.middleware')
 const dynamicQueryResponse = require('../../middleware/dynamicQueryResponse.middleware')
 const productModel = require('./product.model')
 
-// router.use(protect);
-// router.use(authorize("admin"));
-// router.use(upload.single("image"));
-
 router.route('/').get(dynamicQueryResponse(productModel), getAllProducts)
+router.route('/:productId').get(protect, authorize('seller'), getProductById)
 
 router
   .route('/sellers/:sellerId')
@@ -26,13 +23,12 @@ router
 
 router
   .route('/categories/:categoryId')
-  .get(getProductsCategory)
+  .get(getProductsByCategoryID)
   .post(protect, authorize('seller'), createProduct)
+
 router
   .route('/categories/:categoryId/:productId')
   .get(protect, authorize('seller'), getProductByCategoryAndProductId)
-// router
-//   .route("/categories/:categoryId/:productId/photo")
-//   .put(productPhotoUpload);
+router.route('/categories/:categoryId/:productId/photo').put(productPhotoUpload)
 
 module.exports = router

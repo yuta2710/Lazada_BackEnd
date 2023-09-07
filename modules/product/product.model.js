@@ -16,7 +16,6 @@ const ProductSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: "no-photo.jpg",
     required: [true, "Please select a photo"],
   },
   slug: String,
