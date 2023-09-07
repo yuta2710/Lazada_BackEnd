@@ -1,18 +1,18 @@
 const { default: mongoose, Schema } = require("mongoose");
 
 const CartSchema = new mongoose.Schema({
-  customerId: {
+  customer: {
     type: Schema.Types.ObjectId,
     required: [true, "Please add a customer ID"],
   },
   products: [
     {
-      productId: {
+      product: {
         type: Schema.Types.ObjectId,
         required: [true, "Please add a product ID"],
         ref: "Product",
       },
-      sellerId: {
+      seller: {
         type: Schema.Types.ObjectId,
         required: [true, "Please add a seller ID"],
         ref: "User",

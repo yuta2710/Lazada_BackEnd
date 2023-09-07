@@ -16,7 +16,17 @@ const cartModel = require("./cart.model");
 
 router
   .route("/")
-  .get(protect, authorize("admin"), dynamicQueryResponse(cartModel), getCarts);
+  .get(
+    protect,
+    authorize("admin"),
+    dynamicQueryResponse(cartModel, [
+      "customer",
+      "products",
+      "products.product",
+      "products.seller",
+    ]),
+    getCarts
+  );
 router
   .route("/:cartId")
   .get(protect, authorize("admin"), getCartById)

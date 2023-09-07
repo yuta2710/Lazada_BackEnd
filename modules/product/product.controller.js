@@ -84,7 +84,7 @@ exports.getProductByCategoryAndProductId = asyncHandler(
  */
 exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
   const { sellerId } = req.params;
-  const products = await productModel.find({ sellerId });
+  const products = await productModel.find({ seller: sellerId });
 
   if (products.length === 0) {
     return next(
