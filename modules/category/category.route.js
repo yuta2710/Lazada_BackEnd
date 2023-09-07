@@ -14,11 +14,12 @@ const { protect, authorize } = require("../../middleware/auth.middleware");
 const router = express.Router();
 const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
 const categoryModel = require("./category.model");
+const { populateConfigurations } = require("../../utils/populator.util");
 
 router
   .route("/")
   .get(
-    dynamicQueryResponse(categoryModel, ["childCat", "products"]),
+    dynamicQueryResponse(categoryModel, populateConfigurations.path.category),
     getAllCategories
   )
   .post(protect, authorize("admin"), createMainCategory);

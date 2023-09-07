@@ -24,9 +24,16 @@ exports.productPopulatePath = [
 
 exports.categoryPopulatePath = ["childCat", "products"];
 
+exports.cartPopulatePath = [
+  "customer",
+  "products",
+  "products.product",
+  "products.seller",
+];
+
 exports.populateConfigurations = {
   path: {
-    products: [
+    product: [
       "seller",
       "category",
       {
@@ -50,5 +57,6 @@ exports.populateConfigurations = {
       },
     ],
     category: ["childCat", "products"],
+    cart: ["customer", "products", "products.product", "products.seller"],
   },
 };

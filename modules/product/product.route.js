@@ -18,7 +18,7 @@ const { populateConfigurations } = require("../../utils/populator.util");
 router
   .route("/")
   .get(
-    dynamicQueryResponse(productModel, populateConfigurations.path.products),
+    dynamicQueryResponse(productModel, populateConfigurations.path.product),
     getAllProducts
   );
 router.route("/:productId").get(getProductById);

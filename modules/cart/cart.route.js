@@ -11,6 +11,7 @@ const {
 const router = express.Router();
 const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
 const cartModel = require("./cart.model");
+const { populateConfigurations } = require("../../utils/populator.util");
 
 // router.route("/").get(getAllProducts).post(createProduct);
 
@@ -19,12 +20,7 @@ router
   .get(
     protect,
     authorize("admin"),
-    dynamicQueryResponse(cartModel, [
-      "customer",
-      "products",
-      "products.product",
-      "products.seller",
-    ]),
+    dynamicQueryResponse(cartModel, populateConfigurations.path.cart),
     getCarts
   );
 router
