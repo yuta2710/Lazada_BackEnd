@@ -41,6 +41,7 @@ const order = require('./modules/order/order.route')
 const system = require('./modules/system/system.route')
 
 app.use(cors())
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users)
