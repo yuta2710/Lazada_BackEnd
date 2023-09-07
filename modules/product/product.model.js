@@ -32,7 +32,7 @@ const ProductSchema = new mongoose.Schema({
     ref: "Category",
     default: null,
   },
-  sellerId: {
+  seller: {
     type: Schema.Types.ObjectId,
     ref: "User",
     default: null,

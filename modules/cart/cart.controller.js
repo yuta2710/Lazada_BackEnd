@@ -57,8 +57,8 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
     if (user && user.role === "customer") {
       if (!user.cart) {
         const newCart = await cartModel.create({
-          customerId: user._id,
-          sellerId: product.sellerId,
+          customer: user._id,
+          seller: product.seller,
         });
 
         console.log(newCart);
@@ -68,7 +68,7 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
       } else {
         const cart = await cartModel.findById(cartId);
         const existProdIndex = cart.products.findIndex((prod) =>
-          prod.productId.equals(product._id)
+          prod.product.equals(product._id)
         );
 
         console.log(existProdIndex);
@@ -76,9 +76,9 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
           cart.products[existProdIndex].quantity += quantity;
         } else {
           cart.products.push({
-            productId: product._id,
+            product: product._id,
             quantity,
-            sellerId: product.sellerId,
+            seller: product.seller,
           });
         }
         await cart.save();
@@ -119,7 +119,7 @@ exports.removeProductFromCart = asyncHandler(async (req, res, next) => {
       console.log(cart);
 
       const existProdIndex = cart.products.findIndex((prod) =>
-        prod.productId.equals(product._id)
+        prod.product.equals(product._id)
       );
 
       if (existProdIndex != -1) {

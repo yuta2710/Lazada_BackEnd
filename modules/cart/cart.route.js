@@ -11,12 +11,18 @@ const {
 const router = express.Router();
 const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
 const cartModel = require("./cart.model");
+const { populateConfigurations } = require("../../utils/populator.util");
 
 // router.route("/").get(getAllProducts).post(createProduct);
 
 router
   .route("/")
-  .get(protect, authorize("admin"), dynamicQueryResponse(cartModel), getCarts);
+  .get(
+    protect,
+    authorize("admin"),
+    dynamicQueryResponse(cartModel, populateConfigurations.path.cart),
+    getCarts
+  );
 router
   .route("/:cartId")
   .get(protect, authorize("admin"), getCartById)
