@@ -16,7 +16,10 @@ const categoryModel = require("./category.model");
 
 router
   .route("/")
-  .get(dynamicQueryResponse(categoryModel), getAllCategories)
+  .get(
+    dynamicQueryResponse(categoryModel, ["childCat", "products"]),
+    getAllCategories
+  )
   .post(createMainCategory);
 router
   .route("/:parentId/subCategories")
