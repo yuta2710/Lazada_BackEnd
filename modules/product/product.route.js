@@ -15,11 +15,11 @@ const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.midd
 const productModel = require("./product.model");
 
 router.route("/").get(dynamicQueryResponse(productModel), getAllProducts);
-router.route("/:productId").get(protect, authorize("seller"), getProductById);
+router.route("/:productId").get(getProductById);
 
 router
   .route("/sellers/:sellerId")
-  .get(protect, authorize("sellers"), getProductsBySellerId);
+  .get(protect, authorize("seller"), getProductsBySellerId);
 
 router
   .route("/categories/:categoryId")
@@ -31,6 +31,6 @@ router
   .get(protect, authorize("seller"), getProductByCategoryAndProductId);
 router
   .route("/categories/:categoryId/:productId/photo")
-  .put(productPhotoUpload);
+  .put(protect, authorize("seller"), productPhotoUpload);
 
 module.exports = router;

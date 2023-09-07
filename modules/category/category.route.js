@@ -10,6 +10,7 @@ const {
   getAllSubCategories,
   deleteSubCategory,
 } = require("./category.controller");
+const { protect, authorize } = require("../../middleware/auth.middleware");
 const router = express.Router();
 const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
 const categoryModel = require("./category.model");
@@ -20,20 +21,20 @@ router
     dynamicQueryResponse(categoryModel, ["childCat", "products"]),
     getAllCategories
   )
-  .post(createMainCategory);
+  .post(protect, authorize("admin"), createMainCategory);
 router
   .route("/:parentId/subCategories")
   .get(getAllSubCategories)
-  .post(createSubCategory);
+  .post(protect, authorize("admin"), createSubCategory);
 
 router
   .route("/:parentId/subCategories/:subCategoryId")
-  .delete(deleteSubCategory);
+  .delete(protect, authorize("admin"), deleteSubCategory);
 
 router
   .route("/:id")
   .get(getCategory)
-  .put(updateCategory)
-  .delete(deleteCategory);
+  .put(protect, authorize("admin"), updateCategory)
+  .delete(protect, authorize("admin"), deleteCategory);
 
 module.exports = router;

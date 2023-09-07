@@ -50,7 +50,6 @@ const dynamicQueryResponse =
     query = query.skip(startIndex).limit(limit);
 
     if (populates.length > 0) {
-      // console.log(populate);
       for (let i = 0; i < populates.length; i++) {
         query = query.populate(populates[i]);
       }
