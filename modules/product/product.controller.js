@@ -5,6 +5,7 @@ const productModel = require("./product.model");
 const userModel = require("../user/user.model");
 const categoryModel = require("../category/category.model");
 const upload = require("../../middleware/upload.middleware");
+const fs = require("fs");
 
 /**
  * @des:     Get all of products
@@ -21,7 +22,7 @@ exports.getAllProducts = asyncHandler(async (req, res, next) => {
  * @access:  Private: [Admin]
  */
 exports.getProductById = asyncHandler(async (req, res, next) => {
-  const product = await productModel.findById(req.params.id).exec();
+  const product = await productModel.findById(req.params.productId).exec();
 
   res.status(200).json({
     success: true,
@@ -45,6 +46,7 @@ exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
     const products = await productModel.find({ category: childId });
     productsOfSubCategories[childId] = products;
   }
+
   res.status(200).json({
     success: true,
     type: name,
@@ -53,43 +55,6 @@ exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
     data: products,
   });
 });
-
-// exports.getProductsByCategoryName = asyncHandler(async (req, res, next) => {
-//   const catName = req.params.name;
-
-//   console.log(catName);
-
-//   const category = await categoryModel.find();
-
-//   console.log(category);
-
-//   // console.log(category);
-
-//   if (!category) {
-//     return next(new ErrorResponse(404, `Category ${catName} not found`));
-//   }
-
-//   const products = await productModel.find({ category: category._id });
-
-//   if (products.length === 0) {
-//     return next(
-//       new ErrorResponse(
-//         404,
-//         `All products with category <${category._id}> not found`
-//       )
-//     );
-//   }
-
-//   const { name, childCat } = await categoryModel.findOne({ _id: categoryId });
-
-//   res.status(200).json({
-//     success: true,
-//     type: name,
-//     count: products.length,
-//     // subCategories: await categoryModel.findById({ _id: childCat }).exec().name,
-//     data: products,
-//   });
-// });
 
 /**
  * @des:     Get a product by category and ID
@@ -231,41 +196,27 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(400, `Product not found`));
   }
 
-  console.log("Req.files = ", req.files);
-  console.log(file);
+  // Process image uploading
+  upload.single("image")(req, res, async (err) => {
+    const extension = req.file.originalname.split(".").pop();
+    const size = req.file.size;
 
-  // if (
-  //   !file.mimetype.startsWith("image/png") &&
-  //   !file.mimetype.startsWith("image/jpg") &&
-  //   !file.mimetype.startsWith("image/jpeg")
-  // ) {
-  //   // console.log(file.mimetype.startsWith("image/jpeg"));
-  //   return next(new ErrorResponse(400, "Please upload an image"));
-  // }
+    if (extension !== "png" && extension !== "jpeg" && extension !== "jpg") {
+      fs.unlinkSync(req.file.path);
+      return next(new ErrorResponse(500, `Please upload an image`));
+    }
 
-  // if (file.size > process.env.MAX_FILE_UPLOAD) {
-  //   return next(new ErrorResponse(400, "Please upload a file less than 1MB"));
-  // }
+    if (size > process.env.MAX_FILE_UPLOAD) {
+      return next(new ErrorResponse(400, "Please upload a file less than 1MB"));
+    }
 
-  // file.name = `photo_${product._id}${path.parse(file.name).ext}`;
-  // console.log(file.name);
+    product.image = req.file.path;
+    await product.save();
 
-  // file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-  //   console.log(process.env.FILE_UPLOAD_PATH);
-  //   if (err) {
-  //     console.log(err.stack.red);
-  //     return next(new ErrorResponse("Problem with file upload", 500));
-  //   }
-
-  //   await productModel.findByIdAndUpdate(
-  //     req.params.pid,
-  //     { image: file.name },
-  //     { new: true }
-  //   );
-
-  //   res.status(200).json({
-  //     success: true,
-  //     data: await productModel.findById(req.params.pid),
-  //   });
-  // });
+    res.status(200).json({
+      success: true,
+      message: "Upload photo successfully",
+      data: product,
+    });
+  });
 });
