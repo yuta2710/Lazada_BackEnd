@@ -20,7 +20,8 @@ router
   .get(
     dynamicQueryResponse(productModel, populateConfigurations.path.product),
     getAllProducts
-  );
+  )
+  .post(protect, authorize("seller"), createProduct);
 
 router.route("/:productId").get(getProductById);
 
@@ -28,10 +29,7 @@ router
   .route("/sellers/:sellerId")
   .get(protect, authorize("seller"), getProductsBySellerId);
 
-router
-  .route("/categories/:categoryId")
-  .get(getProductsByCategoryID)
-  .post(protect, authorize("seller"), createProduct);
+router.route("/categories/:categoryId").get(getProductsByCategoryID);
 
 router
   .route("/categories/:categoryId/:productId")

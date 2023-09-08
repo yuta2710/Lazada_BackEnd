@@ -1,11 +1,11 @@
+const multer = require("multer");
 const path = require("path");
 const asyncHandler = require("../../middleware/async.middleware");
 const ErrorResponse = require("../../utils/error.util");
 const productModel = require("./product.model");
-const userModel = require("../user/user.model");
 const categoryModel = require("../category/category.model");
-const upload = require("../../middleware/upload.middleware");
 const fs = require("fs");
+const { initMongoId } = require("../../utils/init.util");
 
 /**
  * @des:     Get all of products
@@ -115,53 +115,58 @@ exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
  * @access:  Private: [Admin]
  */
 exports.createProduct = asyncHandler(async (req, res, next) => {
-  const { title, description, price, image, quantity } = req.body;
-  const { categoryId } = req.params;
+  let pId;
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "public/uploads");
+    },
+    filename: function (req, file, cb) {
+      pId = initMongoId(1)[0];
+      const fileName = `photo_${pId}${path.extname(file.originalname)}`;
+      cb(null, fileName);
+    },
+  });
 
-  let product;
+  const upload = multer({ storage: storage }).single("image");
 
-  product = await productModel.findOne({ title });
+  upload(req, res, async (err) => {
+    if (err) {
+      return next(new ErrorResponse(500, "File upload failed"));
+    }
 
-  console.log(product);
+    const { title, description, price, quantity } = req.body;
+    const extension = req.file.originalname.split(".").pop();
+    const size = req.file.size;
+    const fileName = `photo_${pId}${path.extname(req.file.originalname)}`;
+    const filePath = `public/uploads/${fileName}`;
 
-  if (product) {
-    // If product exists, update its quantity
-    product.quantity += quantity;
-    await product.save();
-  }
-  // If product doesn't exist, create a new one
-  else {
-    if (categoryId) {
-      product = await productModel.create({
+    if (extension !== "png" && extension !== "jpeg" && extension !== "jpg") {
+      fs.unlinkSync(filePath);
+      return next(new ErrorResponse(500, `Please upload an image`));
+    }
+
+    if (size > process.env.MAX_FILE_UPLOAD) {
+      fs.unlinkSync(filePath);
+      return next(new ErrorResponse(400, "Please upload a file less than 1MB"));
+    }
+
+    try {
+      const newProd = await productModel.create({
         title,
         description,
         price,
-        image,
-        category: categoryId,
+        image: filePath,
         quantity,
       });
-    } else {
-      product = await productModel.create({
-        title,
-        description,
-        price,
-        image,
-        quantity,
+
+      res.status(201).json({
+        success: true,
+        data: newProd,
       });
+    } catch (error) {
+      fs.unlinkSync(filePath);
+      next(new ErrorResponse(401, "Unable to create this product"));
     }
-
-    const category = await categoryModel.findById(categoryId);
-
-    if (category) {
-      category.products.push(product._id);
-
-      await category.save();
-    }
-  }
-
-  res.status(201).json({
-    success: true,
-    data: product,
   });
 });
 
