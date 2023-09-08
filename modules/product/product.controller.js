@@ -7,6 +7,7 @@ const categoryModel = require("../category/category.model");
 const fs = require("fs");
 const { initMongoId } = require("../../utils/init.util");
 const DEFAULT_PATH = "public/uploads/photo_default.png";
+const populateConfigurations = require("../../utils/populator.util");
 /**
  * @des:     Get all of products
  * @route:   GET /api/v1/products
@@ -14,11 +15,6 @@ const DEFAULT_PATH = "public/uploads/photo_default.png";
  */
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.dynamicQueryResponse);
-  // const products = await productModel.find();
-  // res.status(200).json({
-  //   success: true,
-  //   data: products,
-  // });
 });
 
 /**
