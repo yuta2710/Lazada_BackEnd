@@ -156,7 +156,6 @@
   {
     "_id": "64facd9dc839d359fff2d557",
     "title": "OPPO Pad Air PURPLE Tablet (4GB/128GB) | 2K Monitor | Snapdragon 680 Chip",
-    "description": "",
     "price": 7990000,
     "image": "https://lzd-img-global.slatic.net/g/p/fb1ff28e1ac0fa716bf9fe7186eec05e.jpg_720x720q80.jpg_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
@@ -198,102 +197,14 @@
     "quantity": 18
   },
   {
-    "_id": "64facfa5b3a50d34d655f9da",
-    "title": "Samsung Galaxy Tab A8 2022 Tablet (4GB/64GB)",
-    "description": "",
-    "price": 4990000,
-    "image": "https://lzd-img-global.slatic.net/g/p/f13bb2ef4961a93c55435e36be35fe8c.jpg_400x400q75.jpg_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 6
-  },
-  {
-    "_id": "64fad046d436e957f4b7c456",
-    "title": "11-inch iPad Pro Wi-Fi + Cellular 128GB/256GB/512GB [Futureworld- APR]",
-    "description": "Since not officially launched, Apple iPad Pro M2 has created a fever in the market with many opinions and predictions about the design and performance of the device. Recently, the giant Apple has officially launched the iPad Pro M2 product, promising to bring users the best experience. Possessing many improvements from the device's appearance and internal configuration, iPad Pro M2 is always a very hot name and is sought after by many technology enthusiasts.",
-    "price": 28530000,
-    "image": "https://lzd-img-global.slatic.net/g/p/f2b25991dc1115a9a8c7d7e2c19370bc.jpg_720x720q80.jpg_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 9
-  },
-  {
-    "_id": "64fad0ca9588544b1d84fb6f",
-    "title": "Dell Latitude 5290 2-in-1 computer 98% new",
-    "description": "The 2-in-1 Dell Latitude 5290 has a similar design to the dell Latitude 5285, it's really hard to tell the two apart without seeing their detailed configuration. With the detachable keyboard design, you can easily use the dell 5290 as a tablet.",
-    "price": 6490000,
-    "image": "https://lzd-img-global.slatic.net/g/p/c1caad60c47458ed3940fd6399be7d88.jpg_720x720q80.jpg_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 48
-  },
-  {
-    "_id": "64fad158c14b9481ac9902f2",
-    "title": "Tablet Samsung Tab S8+ (Plus)",
-    "description": "Samsung Tab S8+ (Plus) tablet comes with a Samsung keyboard case - Genuine [Queen Mobile]",
-    "price": 19109000,
-    "image": "https://lzd-img-global.slatic.net/g/p/c87762a9dd069a6b751322a3ff417a05.jpg_720x720q80.jpg_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 5
-  },
-  {
-    "_id": "64fad25d380b2c850f169149",
-    "title": "Boox Poke 5 book reader - Bibox book store giveaway",
-    "description": "🔥Boox Poke 5 book reader is also equipped with: 🎁 Free lifetime Sachchuan book store of more than 23,000 books updated daily with priority based on user searches. 🎁 Free lifetime PDF book store of more than 8,000 books updated daily priority according to user search.🎁 Free more than 2,000 sets of process forms for work.🎁 Free medical book store of more than 3,000 books and medical dictionary of more than 39,000 words🎁 Free Buddhist book store of more than 2,000 books.🎁 Lifetime support .🎁 12 months warranty.",
-    "price": 4990000,
-    "image": "https://lzd-img-global.slatic.net/g/p/b474df1213276deaf193bd45342b1b69.jpg_720x720q80.jpg_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 10
-  },
-  {
-    "_id": "64fad2d8633ade8ca2090a48",
-    "title": "Boox Leaf 2 e-reader - Free Bibox's standard bookstore and PDF bookstore",
-    "description": "Boox Leaf 2 is Boox's first device with a built-in page turning key in recent years. Compact and ergonomic design makes page transitions smoother.",
-    "price": 6290000,
-    "image": "https://lzd-img-global.slatic.net/g/p/c6b71c3971ddf2a9acfca8d54288a744.png_720x720q80.png_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 25
-  },
-  {
-    "_id": "64fad36959e2aa3ba80817f5",
-    "title": "Samsung Tab E tablet",
-    "description": "",
-    "price": 1299000,
-    "image": "https://lzd-img-global.slatic.net/g/p/bb96fd04005969eb525c91936df00a5e.jpg_720x720q80.jpg_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 40
-  },
-  {
-    "_id": "64fad3b2a225f6574fc9e863",
-    "title": "Lenovo Tab M10 Gen 2 2GB/32GB Tablet - Genuine - 12 Months Warranty",
-    "description": "",
-    "price": 2690000,
-    "image": "https://lzd-img-global.slatic.net/g/p/bcbbc1ddbdc439de5debe1adf1b060f0.jpg_720x720q80.jpg_.webp",
-    "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
-    "quantity": 32
-  },
-  {
     "_id": "64fad4b2db10cc92c13a309f",
     "title": "iPad Gen 10 2022 10.9-inch iPad Wi-Fi + Cellular 64GB/256GB [Futureworld- APR]",
     "description": "Apple really made a strong impression with the screen size upgrade to 10.9 inches. Comes with a resolution of 2360 x 1640 pixels, 60Hz refresh rate and 264ppi pixel density. Not only expanding the display area, giant Apple also equipped a high-end Liquid Retina panel for this 10th generation iPad.",
     "price": 14930000,
     "image": "https://lzd-img-global.slatic.net/g/p/bcbbc1ddbdc439de5debe1adf1b060f0.jpg_720x720q80.jpg_.webp",
     "dateAdded": "2023-08-12T10:30:00Z",
-    "category": "64fac1ac525e4d1f6effb399",
-    "seller": "5d7a514b5d2c12c7449be067",
+    "category": null,
+    "seller": null,
     "quantity": 27
   }
 ]

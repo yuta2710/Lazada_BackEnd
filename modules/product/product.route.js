@@ -9,6 +9,8 @@ const {
   getProductByCategoryAndProductId,
   getProductsBySellerId,
   getProductById,
+  updateProduct,
+  deleteProduct,
 } = require("./product.controller");
 const { protect, authorize } = require("../../middleware/auth.middleware");
 const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.middleware");
@@ -23,7 +25,13 @@ router
   )
   .post(protect, authorize("seller"), createProduct);
 
-router.route("/:productId").get(getProductById);
+router
+  .route("/:productId")
+  .get(getProductById)
+  .delete(deleteProduct)
+  .put(updateProduct);
+
+router.route("/:productId/photo", productPhotoUpload);
 
 router
   .route("/sellers/:sellerId")

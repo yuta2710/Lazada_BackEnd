@@ -44,8 +44,9 @@ const dynamicQueryResponse =
      */
     const limit = parseInt(req.query.limit, 10) || 10; // ten per page
     const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const total = await model.countDocuments();
+
+    // Execute the query without skip and limit to get the total count
+    const total = await model.countDocuments(JSON.parse(queryStr));
 
     query = query.skip(startIndex).limit(limit);
 
@@ -62,6 +63,7 @@ const dynamicQueryResponse =
     const pagination = {};
 
     // Set next page
+    const endIndex = startIndex + limit;
     if (endIndex < total) {
       pagination.next = {
         page: page + 1,
@@ -83,7 +85,6 @@ const dynamicQueryResponse =
       success: true,
       count: retrievers.length,
       pagination,
-      // totalPage:
       data: retrievers,
     };
 
