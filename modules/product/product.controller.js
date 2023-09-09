@@ -145,6 +145,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
       categoryId,
       sellerId,
     });
+
     const extension = req.file.originalname.split(".").pop();
     const size = req.file.size;
     const fileName = `photo_${pId}${path.extname(req.file.originalname)}`;
@@ -161,16 +162,25 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     }
 
     try {
-      const newProd = await productModel.create({
-        _id: pId,
-        title,
-        description,
-        price,
-        image: filePath,
-        quantity,
-        category: categoryId,
-        seller: sellerId,
-      });
+      let newProd;
+
+      const existProd = await productModel.findOne({ title }).exec();
+
+      if (existProd) {
+        existProd.quantity += Number(quantity);
+        newProd = await existProd.save();
+      } else {
+        newProd = await productModel.create({
+          _id: pId,
+          title,
+          description,
+          price,
+          image: filePath,
+          quantity: Number(quantity),
+          category: categoryId,
+          seller: sellerId,
+        });
+      }
 
       res.status(200).json({
         success: true,
