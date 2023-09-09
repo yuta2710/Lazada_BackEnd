@@ -143,8 +143,8 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(500, 'File upload failed'))
     }
 
-    const { title, description, price, quantity, categoryId, sellerId } =
-      req.body
+    const { title, description, price, quantity, categoryId, sellerId, image } =
+      req.body;
 
     console.table({
       title,
@@ -152,12 +152,18 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
       price,
       quantity,
       categoryId,
-      sellerId
-    })
-    const extension = req.file.originalname.split('.').pop()
-    const size = req.file.size
-    const fileName = `photo_${pId}${path.extname(req.file.originalname)}`
-    const filePath = `public/uploads/${fileName}`
+      sellerId,
+    });
+
+    console.log(req.body);
+
+    console.log("Req.file = ", req.file);
+    // console.table()
+
+    const extension = req.file.originalname.split(".").pop();
+    const size = req.file.size;
+    const fileName = `photo_${pId}${path.extname(req.file.originalname)}`;
+    const filePath = `public/uploads/${fileName}`;
 
     if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
       fs.unlinkSync(filePath)
@@ -170,17 +176,26 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     }
 
     try {
-      const newProd = await productModel.create({
-        _id: pId,
-        title,
-        description,
-        price,
-        seller: userId,
-        image: filePath,
-        quantity,
-        category: categoryId,
-        seller: sellerId
-      })
+      let newProd;
+
+      const existProd = await productModel.findOne({ title }).exec();
+
+      if (existProd) {
+        existProd.quantity += Number(quantity);
+        existProd.image = filePath;
+        newProd = await existProd.save();
+      } else {
+        newProd = await productModel.create({
+          _id: pId,
+          title,
+          description,
+          price,
+          image: filePath,
+          quantity: Number(quantity),
+          category: categoryId,
+          seller: sellerId,
+        });
+      }
 
       res.status(200).json({
         success: true,
