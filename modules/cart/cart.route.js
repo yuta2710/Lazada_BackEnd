@@ -25,11 +25,9 @@ router
   );
 router
   .route("/:cartId")
-  .get(protect, authorize("admin"), getCartById)
-  .post(protect, authorize("customer", "admin"), addProductToCart)
-  .delete(protect, authorize("customer", "admin"), deleteCart);
-router
-  .route("/:cartId/:productId")
-  .delete(protect, authorize("customer", "admin"), removeProductFromCart);
+  .get(protect, getCartById)
+  .post(protect, addProductToCart)
+  .delete(protect, deleteCart);
+router.route("/:cartId/:productId").delete(protect, removeProductFromCart);
 
 module.exports = router;

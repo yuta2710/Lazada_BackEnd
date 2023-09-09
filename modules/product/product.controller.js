@@ -1,12 +1,13 @@
+const multer = require('multer')
 const path = require('path')
 const asyncHandler = require('../../middleware/async.middleware')
 const ErrorResponse = require('../../utils/error.util')
 const productModel = require('./product.model')
-const userModel = require('../user/user.model')
 const categoryModel = require('../category/category.model')
-const upload = require('../../middleware/upload.middleware')
 const fs = require('fs')
-
+const { initMongoId } = require('../../utils/init.util')
+const DEFAULT_PATH = 'public/uploads/photo_default.png'
+const populateConfigurations = require('../../utils/populator.util')
 /**
  * @des:     Get all of products
  * @route:   GET /api/v1/products
@@ -37,19 +38,26 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
  */
 exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
   const categoryId = req.params.categoryId
+
+  const category = await categoryModel
+    .findOne({ _id: categoryId })
+    .populate('childCat')
+
   const products = await productModel.find({ category: categoryId })
-  const { name, childCat } = await categoryModel.findOne({ _id: categoryId })
+
   const productsOfSubCategories = {}
 
-  for (let i = 0; i < childCat.length; i++) {
-    const childId = childCat[i]
-    const products = await productModel.find({ category: childId })
-    productsOfSubCategories[childId] = products
+  for (let i = 0; i < category.childCat.length; i++) {
+    const childId = category.childCat[i]._id
+    const childCategory = category.childCat[i].name
+    const childProducts = await productModel.find({ category: childId })
+
+    productsOfSubCategories[childCategory] = childProducts
   }
 
   res.status(200).json({
     success: true,
-    type: name,
+    type: category.name,
     count: products.length,
     subCategories: productsOfSubCategories,
     data: products
@@ -117,55 +125,59 @@ exports.getProductsBySellerId = asyncHandler(async (req, res, next) => {
 // });
 
 exports.createProduct = asyncHandler(async (req, res, next) => {
-  const { title, description, price, image, userId, quantity } = req.body
-  const { categoryId } = req.params
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+      pId = initMongoId(1)[0]
+      const fileName = `photo_${pId}${path.extname(file.originalname)}`
+      cb(null, fileName)
+    }
+  })
 
-  let product
+  const upload = multer({ storage: storage }).single('image')
 
-  product = await productModel.findOne({ title })
+  upload(req, res, async err => {
+    if (err) {
+      return next(new ErrorResponse(500, 'File upload failed'))
+    }
 
-  console.log(product)
+    const { title, description, price, quantity } = req.body
+    const extension = req.file.originalname.split('.').pop()
+    const size = req.file.size
+    const fileName = `photo_${pId}${path.extname(req.file.originalname)}`
+    const filePath = `public/uploads/${fileName}`
 
-  if (product) {
-    // If product exists, update its quantity
-    product.quantity += quantity
-    await product.save()
-  }
-  // If product doesn't exist, create a new one
-  else {
-    if (categoryId) {
-      product = await productModel.create({
+    if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
+      fs.unlinkSync(filePath)
+      return next(new ErrorResponse(500, `Please upload an image`))
+    }
+
+    if (size > process.env.MAX_FILE_UPLOAD) {
+      fs.unlinkSync(filePath)
+      return next(new ErrorResponse(400, 'Please upload a file less than 1MB'))
+    }
+
+    try {
+      await productModel.create({
+        _id: pId,
         title,
         description,
         price,
-        image,
-        category: categoryId,
-        seller: userId,
+        image: filePath,
         quantity
       })
-    } else {
-      product = await productModel.create({
-        title,
-        description,
-        price,
-        image,
-        seller: userId,
-        quantity
+
+      res.status(200).json({
+        success: true,
+        message: 'Create a new product successfully'
+        // data: newProd,
       })
+    } catch (error) {
+      fs.unlinkSync(filePath)
+      next(new ErrorResponse(401, 'Unable to update this product'))
     }
-
-    const category = await categoryModel.findById(categoryId)
-
-    if (category) {
-      category.products.push(product._id)
-
-      await category.save()
-    }
-  }
-
-  res.status(201).json({
-    success: true,
-    data: product
   })
 })
 
@@ -175,10 +187,67 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
  * @access:  Private: [Admin]
  */
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-  const { title, description, price, quantity } = req.body
-  const { categoryId } = req.params
+  const { productId } = req.params
 
-  const product = await productModel.findByIdAndUpdate()
+  // const product = await productModel.findByIdAndUpdate();
+  // let pId;
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+      pId = initMongoId(1)[0]
+      const fileName = `photo_${productId}${path.extname(file.originalname)}`
+      cb(null, fileName)
+    }
+  })
+
+  const upload = multer({ storage: storage }).single('image')
+
+  upload(req, res, async err => {
+    if (err) {
+      return next(new ErrorResponse(500, 'File upload failed'))
+    }
+
+    const { title, description, price, quantity } = req.body
+    const extension = req.file.originalname.split('.').pop()
+    const size = req.file.size
+    const fileName = `photo_${productId}${path.extname(req.file.originalname)}`
+    const filePath = `public/uploads/${fileName}`
+
+    if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
+      fs.unlinkSync(filePath)
+      return next(new ErrorResponse(500, `Please upload an image`))
+    }
+
+    if (size > process.env.MAX_FILE_UPLOAD) {
+      fs.unlinkSync(filePath)
+      return next(new ErrorResponse(400, 'Please upload a file less than 1MB'))
+    }
+
+    try {
+      const newProd = await productModel.findByIdAndUpdate(
+        productId,
+        {
+          title,
+          description,
+          price,
+          image: filePath,
+          quantity
+        },
+        { new: true }
+      )
+
+      res.status(200).json({
+        success: true,
+        message: 'Updated product successfully',
+        data: newProd
+      })
+    } catch (error) {
+      fs.unlinkSync(filePath)
+      next(new ErrorResponse(401, 'Unable to update this product'))
+    }
+  })
 })
 
 /**
@@ -186,7 +255,17 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
  * @route:   DELETE /api/v1/products/.....
  * @access:  Private: [Admin]
  */
-exports.deleteProduct = asyncHandler(async (req, res, next) => {})
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
+  const { productId } = req.params
+
+  await productModel.findByIdAndDelete(productId)
+
+  res.status(200).json({
+    success: true,
+    message: 'Delete item successfully',
+    data: {}
+  })
+})
 
 /**
  * @des:     Upload a new photo of product by category and product ID
@@ -214,6 +293,7 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
     const size = req.file.size
 
     if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
+      // Prevent save the image to the folder
       fs.unlinkSync(req.file.path)
       return next(new ErrorResponse(500, `Please upload an image`))
     }

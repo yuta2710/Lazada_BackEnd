@@ -26,12 +26,7 @@ const CategorySchema = new mongoose.Schema({
 });
 
 CategorySchema.pre("save", async function (next) {
-  console.log(
-    `\n\nInitializing slugify of <${this.name}>....`.yellow.underline.bold
-  );
   this.slug = slugify(this.name, { lower: true });
-  console.log(`New slug is generated`.green.underline.bold);
-  console.table({ name: this.name, slug: this.slug });
   next();
 });
 

@@ -10,6 +10,7 @@
     ],
     "products": []
   },
+
   {
     "_id": "61f4c5e2d6a5e20001f4d252",
     "name": "Mobiles",
@@ -24,6 +25,29 @@
       "615381f7396a81001f6e2a1c",
       "615382f3d21b94001f7c603b",
       "6153844b8f0a6e001f8d662b"
+    ]
+  },
+  {
+    "_id": "64fac1ac525e4d1f6effb399",
+    "name": "Tablet",
+    "parentCat": "617c1a6c0b34c50001f4d02e",
+    "childCat": [],
+    "products": [
+      "64facd93c5f36c479d388d28",
+      "625f9c00d0f9fb0001f4d037",
+      "64facd9dc839d359fff2d557",
+      "64facda7ce67227f68dd698e",
+      "64facecbd288d4bde4ba419a",
+      "64facf4ef37039fa3e416bad",
+      "64facfa5b3a50d34d655f9da",
+      "64fad046d436e957f4b7c456",
+      "64fad0ca9588544b1d84fb6f",
+      "64fad158c14b9481ac9902f2",
+      "64fad25d380b2c850f169149",
+      "64fad2d8633ade8ca2090a48",
+      "64fad36959e2aa3ba80817f5",
+      "64fad3b2a225f6574fc9e863",
+      "64fad4b2db10cc92c13a309f"
     ]
   },
   {

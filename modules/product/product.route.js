@@ -9,7 +9,8 @@ const {
   getProductByCategoryAndProductId,
   getProductsBySellerId,
   getProductById,
-  productPhotoUploadTmp
+  updateProduct,
+  deleteProduct
 } = require('./product.controller')
 const { protect, authorize } = require('../../middleware/auth.middleware')
 const dynamicQueryResponse = require('../../middleware/dynamicQueryResponse.middleware')
@@ -22,20 +23,26 @@ router
     dynamicQueryResponse(productModel, populateConfigurations.path.product),
     getAllProducts
   )
-router.route('/:productId').get(getProductById)
+  .post(protect, authorize('seller'), createProduct)
+
+router
+  .route('/:productId')
+  .get(getProductById)
+  .delete(deleteProduct)
+  .put(updateProduct)
+
+router.route('/:productId/photo', productPhotoUpload)
 
 router
   .route('/sellers/:sellerId')
   .get(protect, authorize('seller'), getProductsBySellerId)
 
-router
-  .route('/categories/:categoryId')
-  .get(getProductsByCategoryID)
-  .post(protect, authorize('seller'), createProduct)
+router.route('/categories/:categoryId').get(getProductsByCategoryID)
 
 router
   .route('/categories/:categoryId/:productId')
   .get(protect, authorize('seller'), getProductByCategoryAndProductId)
+
 router
   .route('/categories/:categoryId/:productId/photo')
   .put(protect, authorize('seller'), productPhotoUpload)

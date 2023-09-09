@@ -2,6 +2,7 @@ const asyncHandler = require("../../middleware/async.middleware");
 const userModel = require("../user/user.model");
 const cartModel = require("./cart.model");
 const productModel = require("../product/product.model");
+const { populateConfigurations } = require("../../utils/populator.util");
 
 /**
  * @des:     Get all of carts
@@ -21,7 +22,9 @@ exports.getCartById = asyncHandler(async (req, res, next) => {
   console.log(req.user);
   const { cartId } = req.params;
   if (req.user) {
-    const cart = await cartModel.findById(cartId);
+    const cart = await cartModel
+      .findById(cartId)
+      .populate(populateConfigurations.path.cart);
 
     if (cart) {
       res.status(200).json({

@@ -8,7 +8,7 @@ const ProductSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, "Please add a description"],
+    default: null,
   },
   price: {
     type: Number,
@@ -16,7 +16,7 @@ const ProductSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: [true, "Please select a photo"],
+    default: null,
   },
   slug: String,
   dateAdded: {
@@ -40,12 +40,7 @@ const ProductSchema = new mongoose.Schema({
 });
 
 ProductSchema.pre("save", async function (next) {
-  console.log(
-    `\n\nInitializing slugify of <${this.title}>....`.yellow.underline.bold
-  );
   this.slug = slugify(this.title, { lower: true });
-  console.log(`New slug is generated`.green.underline.bold);
-  console.table({ title: this.title, slug: this.slug });
   next();
 });
 
