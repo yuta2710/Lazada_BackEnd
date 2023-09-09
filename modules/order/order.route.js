@@ -10,7 +10,7 @@ const router = express.Router();
 router
   .route("/")
   .get(protect, authorize("admin"), getAllOrders)
-  .post(protect, authorize("admin", "customer", "seller"), createOrder);
+  .post(protect, authorize("customer", "seller"), createOrder);
 router.route("/:orderId").put(updateOrderStatus);
 
 module.exports = router;

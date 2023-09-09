@@ -1,17 +1,32 @@
 const { default: mongoose, Schema } = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
-  status: {
-    type: String,
-    unique: true,
-    required: [true, "Please add a status"],
-    enum: ["new", "accepted", "rejected"],
-    default: "new",
-  },
-  cartId: {
+  customer: {
     type: Schema.Types.ObjectId,
-    ref: "Cart",
+    ref: "User",
     default: null,
+  },
+  products: [
+    {
+      product: {
+        type: Schema.Types.ObjectId,
+        required: [true, "Please add a product ID"],
+        ref: "Product",
+      },
+      status: {
+        type: String,
+        enum: ["new", "shipped", "accepted", "rejected", "canceled", ""],
+        default: "",
+      },
+      quantity: {
+        type: Number,
+        required: [true, "Pleaser add a quantity"],
+      },
+    },
+  ],
+  totalPrice: {
+    type: Number,
+    default: 0,
   },
 });
 

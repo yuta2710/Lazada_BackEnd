@@ -3,6 +3,10 @@ const userModel = require("../user/user.model");
 const cartModel = require("./cart.model");
 const productModel = require("../product/product.model");
 const { populateConfigurations } = require("../../utils/populator.util");
+const { initMongoId } = require("../../utils/init.util");
+const { extractUserIdFromToken } = require("../../utils/token.util");
+const { convertToMongoIdFormat } = require("../../utils/convert.util");
+const ErrorResponse = require("../../utils/error.util");
 
 /**
  * @des:     Get all of carts
@@ -52,55 +56,83 @@ exports.getCartById = asyncHandler(async (req, res, next) => {
  */
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
   const { title, quantity } = req.body;
-  const { cartId } = req.params;
   const product = await productModel.findOne({ title });
+  let newCart;
 
+  // If product was exist
   if (product) {
-    let user = await userModel.findById(req.user._id);
-    if (user && user.role === "customer") {
-      if (!user.cart) {
-        const newCart = await cartModel.create({
-          customer: user._id,
-          seller: product.seller,
-        });
+    // If the user was logged-in
+    if (req.cookies.token) {
+      const strId = extractUserIdFromToken(req.cookies.token);
+      const user = await userModel.findById(strId);
 
-        console.log(newCart);
+      // If cart of that customer was pre-exist
+      if (user.cart) {
+        const cart = await cartModel.findById(user.cart);
 
-        user.cart = newCart._id;
-        await user.save();
-      } else {
-        const cart = await cartModel.findById(cartId);
         const existProdIndex = cart.products.findIndex((prod) =>
           prod.product.equals(product._id)
         );
 
-        console.log(existProdIndex);
         if (existProdIndex != -1) {
-          cart.products[existProdIndex].quantity += quantity;
+          // If the required quantity is less than the product's current quantity
+          if (quantity < product.quantity) {
+            cart.products[existProdIndex].quantity += Number(quantity); // update the quantity of product in cart
+            await cart.save();
+          } else {
+            return next(
+              new ErrorResponse(
+                400,
+                "The required quantity cannot be greater than the product's current quantity"
+              )
+            );
+          }
         } else {
-          cart.products.push({
-            product: product._id,
-            quantity,
-            seller: product.seller,
-          });
+          // If the cart does not contain that product, push to the cart
+          cart.products.push({ product: product._id, quantity });
+          await cart.save();
         }
-        await cart.save();
+      } else {
+        // If user was logged-in, but not have a cart ==> create it
+        newCart = await cartModel.create({
+          _id: initMongoId(1)[0],
+          customer: user._id,
+        });
+        newCart.products.push({ product: product._id, quantity });
+        user.cart = newCart._id;
+        await newCart.save();
+        await user.save();
       }
     } else {
-      res.status(400).json({
-        success: false,
-        message: "UserId cannot be empty",
-      });
+      // If user's role is a guest
+      if (newCart !== undefined) {
+        // If the newCart of that guest was exist
+        const cart = await cartModel.findById(newCart._id);
+
+        if (cart !== null) {
+          const existProdIndex = cart.products.findIndex((prod) =>
+            prod.product.equals(product._id)
+          );
+          if (existProdIndex != -1) {
+            if (quantity < product.quantity) {
+              cart.products[existProdIndex].quantity += Number(quantity);
+              await cart.save();
+            }
+          }
+        }
+      } else {
+        newCart = await cartModel.create({
+          _id: initMongoId(1)[0],
+        });
+        newCart.products.push({ product: product._id, quantity });
+        await newCart.save();
+      }
     }
-  } else {
-    res.status(400).json({
-      success: false,
-      message: "Product not found",
-    });
   }
   res.status(200).json({
     success: true,
     message: "Add product to a cart successfully",
+    data: newCart,
   });
 });
 
@@ -117,24 +149,17 @@ exports.removeProductFromCart = asyncHandler(async (req, res, next) => {
 
   if (product) {
     let user = await userModel.findById(req.user._id);
-    if (user && user.role === "customer") {
-      const cart = await cartModel.findOne({ _id: cartId });
-      console.log(cart);
+    const cart = await cartModel.findOne({ _id: cartId });
+    console.log(cart);
 
-      const existProdIndex = cart.products.findIndex((prod) =>
-        prod.product.equals(product._id)
-      );
+    const existProdIndex = cart.products.findIndex((prod) =>
+      prod.product.equals(product._id)
+    );
 
-      if (existProdIndex != -1) {
-        cart.products.splice(existProdIndex, 1);
-      }
-      await cart.save();
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "Not authorize to access this route",
-      });
+    if (existProdIndex != -1) {
+      cart.products.splice(existProdIndex, 1);
     }
+    await cart.save();
   } else {
     res.status(400).json({
       success: false,
@@ -144,8 +169,8 @@ exports.removeProductFromCart = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: "Add product to a cart successfully",
-    data: await cartModel.findById(await userModel.findById(req.user._id).cart),
+    message: "Remove product to a cart successfully",
+    data: await cartModel.findById(cartId),
   });
 });
 

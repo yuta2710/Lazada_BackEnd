@@ -29,8 +29,8 @@
     "password": "123456",
     "phone_number": "0845678901",
     "address": "789 Oak Ave, Villagetown, Country",
-    "cart": "642c4c70d0f9fb0001f4d040",
-    "order": "65f7d2d9d6a5e20001f4d04a"
+    "cart": null,
+    "order": null
   },
   {
     "_id": "5d7a514b5d2c12c7449be045",

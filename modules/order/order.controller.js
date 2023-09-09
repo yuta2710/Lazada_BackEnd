@@ -21,56 +21,38 @@ exports.getAllOrders = asyncHandler(async (req, res, next) => {
 });
 
 /**
- * @des:     Get my orders
- * @route:   GET /api/v1/orders/............
- * @access:  Private: [All]
- */
-// exports.getMeOrder = asyncHandler(async (req, res, next) => {
-//   const user = await userModel.find(req.user._id);
-
-//   let order;
-//   if (user) {
-//     order = await orderModel.findById(user.order).exec();
-//   }
-
-//   res.status(200).json({
-//     success: true,
-//     count: orders.length,
-//     data: orders,
-//   });
-// });
-
-/**
  * @des:     Create a new order
  * @route:   POST /api/v1/orders
  * @access:  Private: [All]
  */
 exports.createOrder = asyncHandler(async (req, res, next) => {
-  const userId = req.user._id;
-  const user = await userModel.findById(userId);
-
-  if (!user || user.role !== "customer" || !user.cart) {
-    return next(new ErrorResponse(400, "No valid cart found for the user"));
-  }
-
-  const cart = await cartModel.findById(cartId);
-
   let order;
+  if (req.user) {
+    const userId = req.user._id;
+    // console.log(userId);
+    const user = await userModel.findById(userId);
 
-  if (cart.products.length === 0) {
-    return next(
-      new ErrorResponse(400, "Cannot create order with empty products")
-    );
+    const cart = await cartModel.findById(user.cart);
+
+    console.log(cart);
+
+    order = await orderModel.create({
+      customer: user._id,
+      totalPrice: cart.totalPrice,
+    });
+
+    for (let i = 0; i < cart.products.length; i++) {
+      cart.products[i].status = "new";
+      order.products.push(cart.products[i]);
+      let currProduct = await productModel.findById(cart.products[i].product);
+      currProduct.quantity -= cart.products[i].quantity;
+      await currProduct.save();
+    }
+
+    await order.save();
+    user.order = order._id;
+    await user.save();
   }
-
-  order = await orderModel.create({
-    cartId: user.cart,
-    products: cart.products,
-  });
-
-  user.order = order._id;
-
-  await user.save();
 
   res.status(200).json({
     success: true,

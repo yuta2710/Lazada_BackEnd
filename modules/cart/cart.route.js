@@ -22,12 +22,10 @@ router
     authorize("admin"),
     dynamicQueryResponse(cartModel, populateConfigurations.path.cart),
     getCarts
-  );
-router
-  .route("/:cartId")
-  .get(protect, getCartById)
-  .post(protect, addProductToCart)
-  .delete(protect, deleteCart);
+  )
+  .post(addProductToCart);
+// .post(protect, authorize("admin", "seller", "customer"), addProductToCart);
+router.route("/:cartId").get(protect, getCartById).delete(protect, deleteCart);
 router.route("/:cartId/:productId").delete(protect, removeProductFromCart);
 
 module.exports = router;
