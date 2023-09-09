@@ -142,8 +142,8 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     if (err) {
       return next(new ErrorResponse(500, 'File upload failed'))
     }
-
-    const { title, description, price, quantity } = req.body
+    const { title, description, price, userId, quantity } = req.body
+    // const { title, description, price, quantity } = req.body
     const extension = req.file.originalname.split('.').pop()
     const size = req.file.size
     const fileName = `photo_${pId}${path.extname(req.file.originalname)}`
@@ -165,6 +165,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
         title,
         description,
         price,
+        seller: userId,
         image: filePath,
         quantity
       })
