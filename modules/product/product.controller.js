@@ -134,9 +134,17 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(500, "File upload failed"));
     }
 
-    const { title, description, price, quantity } = req.body;
+    const { title, description, price, quantity, categoryId, sellerId } =
+      req.body;
 
-    console.table({ title, description, price, quantity });
+    console.table({
+      title,
+      description,
+      price,
+      quantity,
+      categoryId,
+      sellerId,
+    });
     const extension = req.file.originalname.split(".").pop();
     const size = req.file.size;
     const fileName = `photo_${pId}${path.extname(req.file.originalname)}`;
@@ -153,19 +161,21 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     }
 
     try {
-      await productModel.create({
+      const newProd = await productModel.create({
         _id: pId,
         title,
         description,
         price,
         image: filePath,
         quantity,
+        category: categoryId,
+        seller: sellerId,
       });
 
       res.status(200).json({
         success: true,
         message: "Create a new product successfully",
-        // data: newProd,
+        data: newProd,
       });
     } catch (error) {
       fs.unlinkSync(filePath);

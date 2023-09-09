@@ -1,8 +1,8 @@
 exports.populateConfigurations = {
   path: {
     product: [
-      // "seller",
-      // "category",
+      "seller",
+      "category",
       // {
       //   path: "category",
       //   populate: {
