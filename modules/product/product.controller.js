@@ -170,6 +170,8 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
       let newProd;
 
       const existProd = await productModel.findOne({ title }).exec();
+      // const photo = new Image();
+      console.log(req.file);
 
       if (existProd) {
         existProd.quantity += Number(quantity);
