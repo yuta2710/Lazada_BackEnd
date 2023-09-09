@@ -8,7 +8,8 @@ const {
   productPhotoUpload,
   getProductByCategoryAndProductId,
   getProductsBySellerId,
-  getProductById
+  getProductById,
+  productPhotoUploadTmp
 } = require('./product.controller')
 const { protect, authorize } = require('../../middleware/auth.middleware')
 const dynamicQueryResponse = require('../../middleware/dynamicQueryResponse.middleware')
