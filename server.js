@@ -58,8 +58,6 @@ app.use(
   express.static(path.join(__dirname, "public/uploads"))
 );
 
-console.log("Test");
-
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
