@@ -44,7 +44,7 @@ exports.getProductsByCategoryID = asyncHandler(async (req, res, next) => {
     .populate("childCat");
 
   const products = await productModel.find({ category: categoryId });
-
+  a;
   const productsOfSubCategories = {};
 
   for (let i = 0; i < category.childCat.length; i++) {
@@ -135,6 +135,8 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     }
 
     const { title, description, price, quantity } = req.body;
+
+    console.table({ title, description, price, quantity });
     const extension = req.file.originalname.split(".").pop();
     const size = req.file.size;
     const fileName = `photo_${pId}${path.extname(req.file.originalname)}`;
