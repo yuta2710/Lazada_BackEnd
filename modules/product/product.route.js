@@ -23,7 +23,7 @@ router
     dynamicQueryResponse(productModel, populateConfigurations.path.product),
     getAllProducts
   )
-  .post(createProduct);
+  .post(protect, authorize("seller"), createProduct);
 
 router
   .route("/:productId")
