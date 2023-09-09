@@ -170,16 +170,28 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     }
 
     try {
-      const newProd = await productModel.create({
-        _id: pId,
-        title,
-        description,
-        price,
-        image: filePath,
-        quantity,
-        category: categoryId,
-        seller: sellerId
-      })
+      let newProd
+
+      const existProd = await productModel.findOne({ title }).exec()
+      // const photo = new Image();
+      console.log(req.file)
+
+      if (existProd) {
+        existProd.quantity += Number(quantity)
+        existProd.image = filePath
+        newProd = await existProd.save()
+      } else {
+        newProd = await productModel.create({
+          _id: pId,
+          title,
+          description,
+          price,
+          image: filePath,
+          quantity: Number(quantity),
+          category: categoryId,
+          seller: sellerId
+        })
+      }
 
       res.status(200).json({
         success: true,

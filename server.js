@@ -43,7 +43,6 @@ const system = require('./modules/system/system.route')
 app.use(cors())
 
 app.use(express.static(path.join(__dirname, 'public')))
-app.use('/uploads', express.static('public/uploads'))
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users)
 app.use(`/api/${process.env.API_VERSION_1}/auth`, auth)
@@ -52,6 +51,12 @@ app.use(`/api/${process.env.API_VERSION_1}/carts`, cart)
 app.use(`/api/${process.env.API_VERSION_1}/products`, product)
 app.use(`/api/${process.env.API_VERSION_1}/orders`, order)
 app.use(`/api/${process.env.API_VERSION_1}/system`, system)
+
+// Serve static files from the 'public/uploads' directory
+app.use(
+  '/public/uploads',
+  express.static(path.join(__dirname, 'public/uploads'))
+)
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
