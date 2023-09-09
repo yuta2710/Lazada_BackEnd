@@ -43,6 +43,7 @@ const system = require("./modules/system/system.route");
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static("public/uploads"));
 
 app.use(`/api/${process.env.API_VERSION_1}/users`, users);
 app.use(`/api/${process.env.API_VERSION_1}/auth`, auth);
