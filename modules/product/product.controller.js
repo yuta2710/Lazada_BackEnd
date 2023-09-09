@@ -149,6 +149,22 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     const fileName = `photo_${pId}${path.extname(req.file.originalname)}`
     const filePath = `public/uploads/${fileName}`
 
+    const { title, description, price, quantity, categoryId, sellerId } =
+      req.body
+
+    console.table({
+      title,
+      description,
+      price,
+      quantity,
+      categoryId,
+      sellerId
+    })
+    const extension = req.file.originalname.split('.').pop()
+    const size = req.file.size
+    const fileName = `photo_${pId}${path.extname(req.file.originalname)}`
+    const filePath = `public/uploads/${fileName}`
+
     if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
       fs.unlinkSync(filePath)
       return next(new ErrorResponse(500, `Please upload an image`))
@@ -160,20 +176,22 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
     }
 
     try {
-      await productModel.create({
+      const newProd = await productModel.create({
         _id: pId,
         title,
         description,
         price,
         seller: userId,
         image: filePath,
-        quantity
+        quantity,
+        category: categoryId,
+        seller: sellerId
       })
 
       res.status(200).json({
         success: true,
-        message: 'Create a new product successfully'
-        // data: newProd,
+        message: 'Create a new product successfully',
+        data: newProd
       })
     } catch (error) {
       fs.unlinkSync(filePath)
