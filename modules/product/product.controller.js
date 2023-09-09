@@ -134,7 +134,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(500, "File upload failed"));
     }
 
-    const { title, description, price, quantity, categoryId, sellerId } =
+    const { title, description, price, quantity, categoryId, sellerId, image } =
       req.body;
 
     console.table({
@@ -145,6 +145,11 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
       categoryId,
       sellerId,
     });
+
+    console.log(req.body);
+
+    console.log("Req.file = ", req.file);
+    // console.table()
 
     const extension = req.file.originalname.split(".").pop();
     const size = req.file.size;
@@ -168,6 +173,7 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 
       if (existProd) {
         existProd.quantity += Number(quantity);
+        existProd.image = filePath;
         newProd = await existProd.save();
       } else {
         newProd = await productModel.create({
