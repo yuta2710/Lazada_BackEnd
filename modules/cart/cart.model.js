@@ -29,17 +29,6 @@ const CartSchema = new mongoose.Schema({
   },
 });
 
-// customer not login ==> save to local storage
-// login ==> send that cart from local storage to database
-// after that, customer will create order
-// inside that create order, that seller can list of orders
-// seller need to decide
-
-// accept, reject from customer
-
-// If shipped, seller's product size less than required quantity ==> prevent "shipped"
-// After shipped, customer selected accept, the product in that seller will minus the quantity they shipped.
-
 CartSchema.pre("save", async function (next) {
   try {
     // Initialize totalPrice to 0
