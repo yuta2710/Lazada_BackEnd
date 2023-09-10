@@ -72,7 +72,7 @@ exports.getAllOrdersByUserId = asyncHandler(async (req, res, next) => {
 // if status shipped, customer accept or rejected, 1 khoi accept hoac rejected,
 // status canceled, 2 thg lp d change status
 exports.createOrder = asyncHandler(async (req, res, next) => {
-  const { customerId, totalPrice } = req.body;
+  const { customerId } = req.body;
 
   let order;
   if (req.user) {
@@ -83,11 +83,14 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
 
     order = await orderModel.create({
       customer: customerId,
-      totalPrice: totalPrice,
+      totalPrice: cart.totalPrice,
     });
+
+    console.log(cart.products);
 
     for (let i = 0; i < cart.products.length; i++) {
       cart.products[i].status = "new";
+      console.log(cart.products[i]);
       order.products.push(cart.products[i]);
       let currProduct = await productModel.findById(cart.products[i].product);
       if (currProduct.quantity >= cart.products[i].quantity) {
