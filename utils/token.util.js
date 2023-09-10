@@ -1,17 +1,26 @@
 const jwt = require("jsonwebtoken");
 
 exports.createToken = (user) => {
-    return jwt.sign({id: user._id}, process.env.JWT_SECRET, {
-        expiresIn: "1d"
-    })
-}
+  return jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
+};
 
 exports.verifyToken = async (token) => {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-            if(err) reject(err);
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+      if (err) reject(err);
 
-            resolve(payload);
-        })
-    })
-} 
+      resolve(payload);
+    });
+  });
+};
+
+exports.extractUserIdFromToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return decoded.id; // Assuming the user ID is stored in the token as 'userId'
+  } catch (error) {
+    return null; // Return null if there's an error or the token is invalid
+  }
+};
