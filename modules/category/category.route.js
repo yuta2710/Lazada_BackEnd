@@ -18,10 +18,7 @@ const { populateConfigurations } = require("../../utils/populator.util");
 
 router
   .route("/")
-  .get(
-    dynamicQueryResponse(categoryModel, populateConfigurations.path.category),
-    getAllCategories
-  )
+  .get(getAllCategories)
   .post(protect, authorize("admin"), createMainCategory);
 router
   .route("/:parentId/subCategories")
