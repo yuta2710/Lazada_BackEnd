@@ -21,32 +21,67 @@ exports.getAllOrders = asyncHandler(async (req, res, next) => {
 });
 
 /**
+ * @des:     Get all of orders by seller ID
+ * @route:   GET /api/v1/orders
+ * @access:  Private: [Admin]
+ */
+exports.getAllOrdersBySellerId = asyncHandler(async (req, res, next) => {
+  const { sellerId } = req.params;
+
+  const products = await productModel.find({ seller: sellerId });
+
+  const productIds = products.map((prod) => prod._id);
+  const orders = await orderModel
+    .find({
+      "products.product": { $in: productIds },
+    })
+    .populate("customer");
+
+  res.status(200).json({
+    success: true,
+    data: orders,
+  });
+});
+
+/**
  * @des:     Create a new order
  * @route:   POST /api/v1/orders
  * @access:  Private: [All]
  */
+// status: neu status new, customer ko lam dc gi, seller change ship[ top cancel]
+// if status shipped, customer accept or rejected, 1 khoi accept hoac rejected,
+// status canceled, 2 thg lp d change status
 exports.createOrder = asyncHandler(async (req, res, next) => {
+  const { customerId, products, totalPrice } = req.body;
+
   let order;
   if (req.user) {
-    const userId = req.user._id;
-    // console.log(userId);
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(customerId);
 
+    console.log(user);
     const cart = await cartModel.findById(user.cart);
 
-    console.log(cart);
-
     order = await orderModel.create({
-      customer: user._id,
-      totalPrice: cart.totalPrice,
+      customer: customerId,
+      products: products,
+      totalPrice: totalPrice,
     });
 
     for (let i = 0; i < cart.products.length; i++) {
       cart.products[i].status = "new";
       order.products.push(cart.products[i]);
       let currProduct = await productModel.findById(cart.products[i].product);
-      currProduct.quantity -= cart.products[i].quantity;
-      await currProduct.save();
+      if (currProduct.quantity >= cart.products[i].quantity) {
+        currProduct.quantity -= cart.products[i].quantity;
+        await currProduct.save();
+      } else {
+        return next(
+          new ErrorResponse(
+            400,
+            "The require quantity cannot greater than the product's current quantity"
+          )
+        );
+      }
     }
 
     await order.save();

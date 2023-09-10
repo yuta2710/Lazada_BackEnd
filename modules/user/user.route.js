@@ -36,3 +36,9 @@ router
   .put(protect, authorize("admin", "seller"), updateSellerBusiness);
 
 module.exports = router;
+
+// user là customer, nó chỉ coi những order mà nó tạo ra
+// user là seller, nó chỉ coi được những order có sản phẩm của nó
+
+// getorderbyUserId
+// getorderbysellerId
