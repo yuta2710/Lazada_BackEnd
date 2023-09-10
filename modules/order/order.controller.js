@@ -72,7 +72,7 @@ exports.getAllOrdersByUserId = asyncHandler(async (req, res, next) => {
 // if status shipped, customer accept or rejected, 1 khoi accept hoac rejected,
 // status canceled, 2 thg lp d change status
 exports.createOrder = asyncHandler(async (req, res, next) => {
-  const { customerId, products, totalPrice } = req.body;
+  const { customerId, totalPrice } = req.body;
 
   let order;
   if (req.user) {
