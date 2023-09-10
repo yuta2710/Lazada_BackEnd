@@ -234,20 +234,20 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
     }
 
     const { title, description, price, quantity } = req.body
-    const extension = req.file.originalname.split('.').pop()
-    const size = req.file.size
-    const fileName = `photo_${productId}${path.extname(req.file.originalname)}`
-    const filePath = `public/uploads/${fileName}`
+    // const extension = req.file.originalname.split('.').pop()
+    // const size = req.file.size
+    // const fileName = `photo_${productId}${path.extname(req.file.originalname)}`
+    // const filePath = `public/uploads/${fileName}`
 
-    if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
-      fs.unlinkSync(filePath)
-      return next(new ErrorResponse(500, `Please upload an image`))
-    }
+    // if (extension !== 'png' && extension !== 'jpeg' && extension !== 'jpg') {
+    //   fs.unlinkSync(filePath)
+    //   return next(new ErrorResponse(500, `Please upload an image`))
+    // }
 
-    if (size > process.env.MAX_FILE_UPLOAD) {
-      fs.unlinkSync(filePath)
-      return next(new ErrorResponse(400, 'Please upload a file less than 1MB'))
-    }
+    // if (size > process.env.MAX_FILE_UPLOAD) {
+    //   fs.unlinkSync(filePath)
+    //   return next(new ErrorResponse(400, 'Please upload a file less than 1MB'))
+    // }
 
     try {
       const newProd = await productModel.findByIdAndUpdate(
@@ -256,7 +256,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
           title,
           description,
           price,
-          image: filePath,
+          //   image: filePath,
           quantity
         },
         { new: true }
