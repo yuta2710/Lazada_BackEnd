@@ -107,6 +107,92 @@ exports.getAllOrdersByUserId = asyncHandler(async (req, res, next) => {
 })
 
 /**
+ * @des:     Get all of orders by seller ID
+ * @route:   GET /api/v1/orders
+ * @access:  Private: [seller]
+ */
+exports.getAllOrdersByUserId = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params
+  const { role } = req.user
+
+  console.log(role)
+
+  let orders
+
+  // customer: display only order's products info
+  if (role === 'customer') {
+    console.log()
+    // Get all orders associated with the userId of the logged-in customer
+    orders = await orderModel
+      .find({ customer: userId })
+      .select('-customer')
+      .populate(['products', 'products.product'])
+
+    console.log(orders)
+  }
+  // Seller: display all of orders info
+  if (role === 'seller') {
+    // Get all orders associated with the specified sellerId
+    const products = await productModel.find({ seller: userId })
+    const productIds = products.map(prod => prod._id)
+
+    orders = await orderModel
+      .find({
+        'products.product': { $in: productIds }
+      })
+      .populate(['customer', 'products', 'products.product'])
+  }
+
+  res.status(200).json({
+    success: true,
+    data: orders
+  })
+})
+
+/**
+ * @des:     Get all of orders by seller ID
+ * @route:   GET /api/v1/orders
+ * @access:  Private: [seller]
+ */
+exports.getAllOrdersByUserId = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params
+  const { role } = req.user
+
+  console.log(role)
+
+  let orders
+
+  // customer: display only order's products info
+  if (role === 'customer') {
+    console.log()
+    // Get all orders associated with the userId of the logged-in customer
+    orders = await orderModel
+      .find({ customer: userId })
+      .select('-customer')
+      .populate(['products', 'products.product'])
+
+    console.log(orders)
+  }
+  // Seller: display all of orders info
+  if (role === 'seller') {
+    // Get all orders associated with the specified sellerId
+    const products = await productModel.find({ seller: userId })
+    const productIds = products.map(prod => prod._id)
+
+    orders = await orderModel
+      .find({
+        'products.product': { $in: productIds }
+      })
+      .populate(['customer', 'products', 'products.product'])
+  }
+
+  res.status(200).json({
+    success: true,
+    data: orders
+  })
+})
+
+/**
  * @des:     Create a new order
  * @route:   POST /api/v1/orders
  * @access:  Private: [All]
