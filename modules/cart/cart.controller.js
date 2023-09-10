@@ -15,7 +15,11 @@ const orderModel = require("../order/order.model");
  * @access:  Private: [Admin]
  */
 exports.getCarts = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.dynamicQueryResponse);
+  const carts = await cartModel.find();
+  res.status(200).json({
+    success: true,
+    data: carts,
+  });
 });
 
 /**

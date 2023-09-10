@@ -9,7 +9,12 @@ const ErrorResponse = require("../../utils/error.util");
  * @access:  Private: [Admin]
  */
 exports.getAllCategories = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.dynamicQueryResponse);
+  const categories = await categoryModel.find();
+
+  res.status(200).json({
+    success: true,
+    data: categories,
+  });
 });
 
 /**
