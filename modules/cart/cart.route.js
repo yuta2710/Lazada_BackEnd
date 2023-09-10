@@ -13,8 +13,6 @@ const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.midd
 const cartModel = require("./cart.model");
 const { populateConfigurations } = require("../../utils/populator.util");
 
-// router.route("/").get(getAllProducts).post(createProduct);
-
 router
   .route("/")
   .get(
@@ -22,12 +20,9 @@ router
     authorize("admin"),
     dynamicQueryResponse(cartModel, populateConfigurations.path.cart),
     getCarts
-  );
-router
-  .route("/:cartId")
-  .get(protect, getCartById)
-  .post(protect, addProductToCart)
-  .delete(protect, deleteCart);
+  )
+  .post(protect, addProductToCart);
+router.route("/:cartId").get(protect, getCartById).delete(protect, deleteCart);
 router.route("/:cartId/:productId").delete(protect, removeProductFromCart);
 
 module.exports = router;

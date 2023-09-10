@@ -1,6 +1,8 @@
 const { default: mongoose, Schema } = require("mongoose");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { initMongoId } = require("../../utils/init.util");
+const cartModel = require("../cart/cart.model");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -56,14 +58,18 @@ const UserSchema = new mongoose.Schema({
     ref: "Cart",
     default: null,
   },
-  order: {
-    type: Schema.Types.ObjectId,
-    ref: "Order",
-    default: null,
-  },
+  order: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Order",
+      default: null,
+    },
+  ],
 });
 
 UserSchema.pre("save", async function (next) {
+  this.cart = initMongoId(1)[0];
+  await cartModel.create({ _id: this.cart, customer: this._id });
   if (!this.isModified("password")) {
     next();
   }

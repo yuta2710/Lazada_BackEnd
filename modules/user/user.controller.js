@@ -173,3 +173,5 @@ exports.acceptUserStatus = asyncHandler(async (req, res, next) => {
     });
   }
 });
+
+// Vi 1 cart co 1 cart duy nhat, if muon create order, phai pick product no muon

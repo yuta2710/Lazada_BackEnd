@@ -23,6 +23,6 @@ exports.populateConfigurations = {
       // },
     ],
     category: ["childCat", "products"],
-    cart: ["products", "products.product", "products.seller"],
+    cart: ["customer", "products", "products.product"],
   },
 };

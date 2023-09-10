@@ -3,6 +3,11 @@ const userModel = require("../user/user.model");
 const cartModel = require("./cart.model");
 const productModel = require("../product/product.model");
 const { populateConfigurations } = require("../../utils/populator.util");
+const { initMongoId } = require("../../utils/init.util");
+const { extractUserIdFromToken } = require("../../utils/token.util");
+const { convertToMongoIdFormat } = require("../../utils/convert.util");
+const ErrorResponse = require("../../utils/error.util");
+const orderModel = require("../order/order.model");
 
 /**
  * @des:     Get all of carts
@@ -51,102 +56,123 @@ exports.getCartById = asyncHandler(async (req, res, next) => {
  * @access:  Private: [Admin, Customer]
  */
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
-  const { title, quantity } = req.body;
-  const { cartId } = req.params;
-  const product = await productModel.findOne({ title });
+  const { productId, quantity } = req.body;
+  const product = await productModel.findById(productId);
 
+  if (quantity > product.quantity) {
+    return next(
+      new ErrorResponse(
+        400,
+        "The required quantity cannot be greater than the product's current quantity"
+      )
+    );
+  }
+
+  let newCart;
+  // If product was exist
   if (product) {
-    let user = await userModel.findById(req.user._id);
-    if (user && user.role === "customer") {
-      if (!user.cart) {
-        const newCart = await cartModel.create({
-          customer: user._id,
-          seller: product.seller,
-        });
+    // If the user was logged-in
+    if (req.cookies.token) {
+      const strId = extractUserIdFromToken(req.cookies.token);
+      const user = await userModel.findById(strId);
 
-        console.log(newCart);
+      // If cart of that customer was pre-exist
+      if (user.cart) {
+        const cart = await cartModel.findById(user.cart);
 
-        user.cart = newCart._id;
-        await user.save();
-      } else {
-        const cart = await cartModel.findById(cartId);
         const existProdIndex = cart.products.findIndex((prod) =>
           prod.product.equals(product._id)
         );
 
-        console.log(existProdIndex);
+        // If the product exist in that cart before
         if (existProdIndex != -1) {
-          cart.products[existProdIndex].quantity += quantity;
+          // If the required quantity is less than the product's current quantity
+          if (quantity < product.quantity) {
+            cart.products[existProdIndex].quantity += Number(quantity); // update the quantity of product in cart
+            await cart.save();
+          } else {
+            return next(
+              new ErrorResponse(
+                400,
+                "The required quantity cannot be greater than the product's current quantity"
+              )
+            );
+          }
         } else {
+          // If the cart does not contain that product, push to the cart
           cart.products.push({
             product: product._id,
             quantity,
-            seller: product.seller,
           });
+          await cart.save();
         }
-        await cart.save();
+      } else {
+        // If user was logged-in, but not have a cart ==> create it
+        newCart = await cartModel.create({
+          _id: initMongoId(1)[0],
+          customer: user._id,
+        });
+        newCart.products.push({
+          product: product._id,
+          quantity,
+        });
+        user.cart = newCart._id;
+        await newCart.save();
+        await user.save();
       }
-    } else {
-      res.status(400).json({
-        success: false,
-        message: "UserId cannot be empty",
-      });
     }
   } else {
-    res.status(400).json({
-      success: false,
-      message: "Product not found",
-    });
+    return next(new ErrorResponse(404, "Product not found"));
   }
   res.status(200).json({
     success: true,
     message: "Add product to a cart successfully",
+    data: newCart,
   });
 });
 
 /**
  * @des:     Remove a product from the current cart
  * @route:   Delete /api/v1/carts/:cartId/:productId
- * @access:  Private: [Admin, Customer]
+ * @access:  Public: []
  */
 exports.removeProductFromCart = asyncHandler(async (req, res, next) => {
   const { cartId, productId } = req.params;
   const product = await productModel.findById(productId);
 
-  console.log(product);
-
+  // If the product was exist in database, check user login state
   if (product) {
-    let user = await userModel.findById(req.user._id);
-    if (user && user.role === "customer") {
-      const cart = await cartModel.findOne({ _id: cartId });
-      console.log(cart);
+    if (req.cookies.token) {
+      const cart = await cartModel.findById(cartId);
 
-      const existProdIndex = cart.products.findIndex((prod) =>
-        prod.product.equals(product._id)
-      );
+      if (cart !== null) {
+        const existProdIndex = cart.products.findIndex((prod) =>
+          prod.product.equals(product._id)
+        );
 
-      if (existProdIndex != -1) {
-        cart.products.splice(existProdIndex, 1);
+        // If the product was exist in the cart
+        if (existProdIndex != -1) {
+          cart.products.splice(existProdIndex, 1); // Remove that product from cart
+        } else {
+          return next(
+            new ErrorResponse(404, "Product not exist in your cart to remove")
+          );
+        }
+        await cart.save(); // Save to hold the persistence of data
+      } else {
+        return next(new ErrorResponse(404, "Cart not found"));
       }
-      await cart.save();
     } else {
-      res.status(400).json({
-        success: false,
-        message: "Not authorize to access this route",
-      });
+      return next(404, "Unauthorized to remove this product from cart");
     }
-  } else {
-    res.status(400).json({
-      success: false,
-      message: "Product not found",
+    res.status(200).json({
+      success: true,
+      message: "Remove product to a cart successfully",
+      data: await cartModel.findById(cartId),
     });
+  } else {
+    return next(new ErrorResponse(404, "Product not found"));
   }
-
-  res.status(200).json({
-    success: true,
-    message: "Add product to a cart successfully",
-    data: await cartModel.findById(await userModel.findById(req.user._id).cart),
-  });
 });
 
 /**
