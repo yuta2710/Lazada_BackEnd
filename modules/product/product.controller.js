@@ -298,13 +298,7 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
  */
 
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
-  const { categoryId, productId } = req.params
-  const category = await categoryModel.findById(categoryId)
-
-  if (!category) {
-    return next(new ErrorResponse(400, `Category not found`))
-  }
-
+  const { productId } = req.params
   const product = await productModel.findById(productId)
 
   if (!product) {
