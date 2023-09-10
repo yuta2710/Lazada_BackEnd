@@ -140,45 +140,6 @@ exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
     if (!validStatusValues.includes(status)) {
       return next(new ErrorResponse(400, "Invalid status"));
     } else {
-      if (role === "customer") {
-        if (
-          status === validStatusValues[3] ||
-          status === validStatusValues[4]
-        ) {
-          finalStatus = status;
-          const prodIndex = order.products.findIndex(
-            (product) => product.product.toString() === productId
-          );
-
-          console.log(order.products[prodIndex].status === status);
-          if (order.products[prodIndex].status !== validStatusValues[0]) {
-            return next(
-              new ErrorResponse(
-                400,
-                "Only update this status if pre-status is 'new'"
-              )
-            );
-          } else {
-            if (order.products[prodIndex].status === validStatusValues[1]) {
-              order.products[prodIndex].status = status;
-            } else {
-              return next(
-                new ErrorResponse(
-                  400,
-                  "Customer only accept or reject if a seller marked the product's state as 'shipped'"
-                )
-              );
-            }
-          }
-        } else {
-          return next(
-            new ErrorResponse(
-              400,
-              "User role <Customer> only choose 'Accept' or 'Reject'"
-            )
-          );
-        }
-      }
       if (role === "seller") {
         if (
           status === validStatusValues[1] ||
@@ -203,6 +164,48 @@ exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
             new ErrorResponse(
               400,
               "User role <Seller> only choose 'Shipped' or 'Cancelled'"
+            )
+          );
+        }
+      }
+
+      if (role === "customer") {
+        if (
+          status === validStatusValues[3] ||
+          status === validStatusValues[4]
+        ) {
+          finalStatus = status;
+          const prodIndex = order.products.findIndex(
+            (product) => product.product.toString() === productId
+          );
+
+          if (
+            order.products[prodIndex].status !== validStatusValues[0] &&
+            order.products[prodIndex].status !== validStatusValues[1]
+          ) {
+            return next(
+              new ErrorResponse(
+                400,
+                "Only update this status if pre-status is 'new'"
+              )
+            );
+          } else {
+            if (order.products[prodIndex].status === validStatusValues[1]) {
+              order.products[prodIndex].status = status;
+            } else {
+              return next(
+                new ErrorResponse(
+                  400,
+                  "Customer only accept or reject if a seller marked the product's state as 'shipped'"
+                )
+              );
+            }
+          }
+        } else {
+          return next(
+            new ErrorResponse(
+              400,
+              "User role <Customer> only choose 'Accept' or 'Reject'"
             )
           );
         }
