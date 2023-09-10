@@ -62,7 +62,7 @@ exports.getCartById = asyncHandler(async (req, res, next) => {
 exports.addProductToCart = asyncHandler(async (req, res, next) => {
   const { productId, quantity } = req.body;
   const product = await productModel.findById(productId);
-
+  console.log("hello")
   if (quantity > product.quantity) {
     return next(
       new ErrorResponse(
@@ -76,10 +76,10 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
   // If product was exist
   if (product) {
     // If the user was logged-in
-    if (req.cookies.token) {
-      const strId = extractUserIdFromToken(req.cookies.token);
+    if (req.headers.authorization.split(" ")[1]) {
+      const strId = extractUserIdFromToken(req.headers.authorization.split(" ")[1]);
       const user = await userModel.findById(strId);
-
+      console.log(user.cart)
       // If cart of that customer was pre-exist
       if (user.cart) {
         const cart = await cartModel.findById(user.cart);
