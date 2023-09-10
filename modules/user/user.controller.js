@@ -56,7 +56,11 @@ exports.createUser = asyncHandler(async (req, res, next) => {
  * @access:  Private: [Admin]
  */
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.dynamicQueryResponse)
+  const users = await userModel.find()
+  res.status(200).json({
+    success: true,
+    data: users
+  })
 })
 
 /**
