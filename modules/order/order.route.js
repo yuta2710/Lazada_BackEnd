@@ -4,7 +4,7 @@ const {
   createOrder,
   updateOrderStatus,
   getAllOrders,
-  getAllOrdersBySellerId,
+  getAllOrdersByUserId,
 } = require("./order.controller");
 const router = express.Router();
 
@@ -13,7 +13,11 @@ router
   .get(protect, authorize("admin"), getAllOrders)
   .post(protect, createOrder);
 
-router.route("/:sellerId").get(getAllOrdersBySellerId);
-router.route("/:orderId").put(updateOrderStatus);
+router
+  .route("/:userId")
+  .get(protect, authorize("customer", "seller"), getAllOrdersByUserId);
+router
+  .route("/:orderId/:productId")
+  .put(protect, authorize("seller", "customer"), updateOrderStatus);
 
 module.exports = router;

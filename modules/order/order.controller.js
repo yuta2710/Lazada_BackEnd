@@ -23,19 +23,39 @@ exports.getAllOrders = asyncHandler(async (req, res, next) => {
 /**
  * @des:     Get all of orders by seller ID
  * @route:   GET /api/v1/orders
- * @access:  Private: [Admin]
+ * @access:  Private: [seller]
  */
-exports.getAllOrdersBySellerId = asyncHandler(async (req, res, next) => {
-  const { sellerId } = req.params;
+exports.getAllOrdersByUserId = asyncHandler(async (req, res, next) => {
+  const { userId } = req.params;
+  const { role } = req.user;
 
-  const products = await productModel.find({ seller: sellerId });
+  console.log(role);
 
-  const productIds = products.map((prod) => prod._id);
-  const orders = await orderModel
-    .find({
-      "products.product": { $in: productIds },
-    })
-    .populate("customer");
+  let orders;
+
+  // customer: display only order's products info
+  if (role === "customer") {
+    console.log();
+    // Get all orders associated with the userId of the logged-in customer
+    orders = await orderModel
+      .find({ customer: userId })
+      .select("-customer")
+      .populate(["products", "products.product"]);
+
+    console.log(orders);
+  }
+  // Seller: display all of orders info
+  if (role === "seller") {
+    // Get all orders associated with the specified sellerId
+    const products = await productModel.find({ seller: userId });
+    const productIds = products.map((prod) => prod._id);
+
+    orders = await orderModel
+      .find({
+        "products.product": { $in: productIds },
+      })
+      .populate(["customer", "products", "products.product"]);
+  }
 
   res.status(200).json({
     success: true,
@@ -63,7 +83,6 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
 
     order = await orderModel.create({
       customer: customerId,
-      products: products,
       totalPrice: totalPrice,
     });
 
@@ -102,36 +121,108 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
  * @access:  Private: [All]
  */
 exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
-  const { orderId } = req.params;
+  const { orderId, productId } = req.params;
   const { status } = req.body;
-  const validStatusValues = ["new", "accepted", "rejected"];
+  const { role } = req.user;
+  const validStatusValues = [
+    "new",
+    "shipped",
+    "cancelled",
+    "accepted",
+    "rejected",
+  ];
   let order;
+  let finalStatus;
 
   order = await orderModel.findById(orderId);
 
   if (order) {
     if (!validStatusValues.includes(status)) {
-      return next(
-        new ErrorResponse(400, "Status must be <Accepted> or <Rejected>")
-      );
-    }
-    if (order.status === validStatusValues[0]) {
-      order = await orderModel.findByIdAndUpdate(
-        orderId,
-        { status },
-        { new: true }
-      );
+      return next(new ErrorResponse(400, "Invalid status"));
     } else {
-      return next(
-        new ErrorResponse(
-          400,
-          "Unable to update order with status <Accepted> or <Rejected>"
-        )
-      );
+      if (role === "customer") {
+        if (
+          status === validStatusValues[3] ||
+          status === validStatusValues[4]
+        ) {
+          finalStatus = status;
+          const prodIndex = order.products.findIndex(
+            (product) => product.product.toString() === productId
+          );
+
+          console.log(order.products[prodIndex].status === status);
+          if (order.products[prodIndex].status !== validStatusValues[0]) {
+            return next(
+              new ErrorResponse(
+                400,
+                "Only update this status if pre-status is 'new'"
+              )
+            );
+          } else {
+            if (order.products[prodIndex].status === validStatusValues[1]) {
+              order.products[prodIndex].status = status;
+            } else {
+              return next(
+                new ErrorResponse(
+                  400,
+                  "Customer only accept or reject if a seller marked the product's state as 'shipped'"
+                )
+              );
+            }
+          }
+        } else {
+          return next(
+            new ErrorResponse(
+              400,
+              "User role <Customer> only choose 'Accept' or 'Reject'"
+            )
+          );
+        }
+      }
+      if (role === "seller") {
+        if (
+          status === validStatusValues[1] ||
+          status === validStatusValues[2]
+        ) {
+          finalStatus = status;
+          const prodIndex = order.products.findIndex(
+            (product) => product.product.toString() === productId
+          );
+          if (order.products[prodIndex].status !== validStatusValues[0]) {
+            return next(
+              new ErrorResponse(
+                400,
+                "Only update this status if pre-status is 'new'"
+              )
+            );
+          } else {
+            order.products[prodIndex].status = status;
+          }
+        } else {
+          return next(
+            new ErrorResponse(
+              400,
+              "User role <Seller> only choose 'Shipped' or 'Cancelled'"
+            )
+          );
+        }
+      }
     }
   } else {
     return next(new ErrorResponse(400, "Order not found"));
   }
+
+  await order.save();
+
+  const orderIndex = order.products.findIndex((orderId) =>
+    orderId.equals(order._id)
+  );
+
+  if (orderIndex !== -1) {
+    req.user.order[orderIndex].status = status;
+  }
+
+  await req.user.save();
 
   res.status(200).json({
     success: true,
