@@ -13,3 +13,9 @@ Error data:
 "seller": "5d7a514b5d2c12c7449be067",
 "quantity": 6
 },
+
+//Insert sample data
+node seeder -i
+
+//Delete data
+node seeder -d

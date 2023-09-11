@@ -193,6 +193,11 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
         })
       }
 
+      const category = await categoryModel.findById(categoryId)
+
+      category.products.push(newProd._id)
+      await category.save()
+
       res.status(200).json({
         success: true,
         message: 'Create a new product successfully',
