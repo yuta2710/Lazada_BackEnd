@@ -14,8 +14,8 @@ Error data:
 "quantity": 6
 },
 
-//Insert sample data
+<!-- Insert sample data
 node seeder -i
 
-//Delete data
-node seeder -d
+Delete data
+node seeder -d -->
