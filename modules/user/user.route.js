@@ -15,12 +15,7 @@ const dynamicQueryResponse = require("../../middleware/dynamicQueryResponse.midd
 
 router
   .route("/")
-  .get(
-    protect,
-    authorize("admin"),
-    dynamicQueryResponse(userModel),
-    getAllUsers
-  )
+  .get(protect, authorize("admin"), getAllUsers)
   .post(protect, authorize("admin"), createUser);
 
 router

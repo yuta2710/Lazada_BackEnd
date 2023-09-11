@@ -12,11 +12,13 @@ const CategorySchema = new mongoose.Schema({
     ref: "Category",
     default: null,
   },
-  childCat: {
-    type: Array(Schema.Types.ObjectId),
-    ref: "Category",
-    default: [],
-  },
+  childCat: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      default: [],
+    },
+  ],
   slug: String,
   products: {
     type: Array(Schema.Types.ObjectId),

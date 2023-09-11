@@ -9,7 +9,9 @@ const ErrorResponse = require("../../utils/error.util");
  * @access:  Private: [Admin]
  */
 exports.getAllCategories = asyncHandler(async (req, res, next) => {
-  const categories = await categoryModel.find();
+  const categories = await categoryModel
+    .find()
+    .populate(["products", "parentCat", "childCat"]);
 
   res.status(200).json({
     success: true,
