@@ -18,6 +18,14 @@ exports.register = asyncHandler(async (req, res, next) => {
 
   let user
 
+  let validPhone = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
+  if (!validPhone.test(phone_number)) {
+    res.status(201).json({
+      success: false,
+      message: 'Invalid phone number, please check again'
+    })
+  }
+
   if (
     !(
       (await userModel.findOne({ phone_number: phone_number })) ||
@@ -112,6 +120,20 @@ exports.login = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       success: false,
       message: `Invalid credentials`
+    })
+  }
+
+  if (user.status === 'Pending') {
+    res.status(200).json({
+      success: false,
+      message: `You have not been approved yet, please wait for admin to approve`
+    })
+  }
+
+  if (user.status === 'Rejected') {
+    res.status(200).json({
+      success: false,
+      message: `You have been rejected, please contact admin or create new account`
     })
   }
 

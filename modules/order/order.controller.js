@@ -282,22 +282,18 @@ exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
             product => product.product.toString() === productId
           )
           if (order.products[prodIndex].status !== validStatusValues[0]) {
-            return next(
-              new ErrorResponse(
-                400,
-                "Only update this status if pre-status is 'new'"
-              )
-            )
+            res.status(200).json({
+              success: false,
+              message: 'You can only update status if pre-status is new'
+            })
           } else {
             order.products[prodIndex].status = status
           }
         } else {
-          return next(
-            new ErrorResponse(
-              400,
-              "User role <Seller> only choose 'Shipped' or 'Cancelled'"
-            )
-          )
+          res.status(200).json({
+            success: false,
+            message: 'You can only update status if pre-status is new'
+          })
         }
       }
 
