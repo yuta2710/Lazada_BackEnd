@@ -18,7 +18,12 @@ exports.register = asyncHandler(async (req, res, next) => {
 
   let user
 
-  if (!(await userModel.findOne({ phone_number: phone_number }))) {
+  if (
+    !(
+      (await userModel.findOne({ phone_number: phone_number })) ||
+      (await userModel.findOne({ email: email }))
+    )
+  ) {
     if (role === 'seller' || business) {
       user = await userModel.create({
         name,
@@ -43,9 +48,9 @@ exports.register = asyncHandler(async (req, res, next) => {
       })
     }
   } else {
-    res.status(400).json({
+    res.status(201).json({
       success: false,
-      message: 'Duplicate error. A phone-number should be unique'
+      message: 'Phone number or email already exists'
     })
   }
 
@@ -94,14 +99,20 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   // Check for user
   if (!user) {
-    return next(new ErrorResponse(401, `Invalid credentials`))
+    res.status(200).json({
+      success: false,
+      message: `Invalid credentials`
+    })
   }
 
   // Check if password matches
   const isMatch = await user.matchPassword(password)
 
   if (!isMatch) {
-    return next(new ErrorResponse(401, `Invalid credentials`))
+    res.status(200).json({
+      success: false,
+      message: `Invalid credentials`
+    })
   }
 
   const token = createToken(user)
