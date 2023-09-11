@@ -180,15 +180,24 @@ exports.removeProductFromCart = asyncHandler(async (req, res, next) => {
 });
 
 /**
- * @des:     Update a current cart by ID
- * @route:   PUT /api/v1/carts/:cartId
- * @access:  Private: [Admin]
- */
-exports.updateCart = asyncHandler(async (req, res, next) => {});
-
-/**
  * @des:     Remove a current cart by ID
  * @route:   DELETE /api/v1/carts/:cartId
  * @access:  Private: [Admin]
  */
-exports.deleteCart = asyncHandler(async (req, res, next) => {});
+exports.cleanAllProductsInCart = asyncHandler(async (req, res, next) => {
+  const cart = await cartModel.findById(req.user.cart);
+
+  if (cart) {
+    cart.products = [];
+    cart.totalPrice = 0;
+    await cart.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Clean all products successfully",
+      data: cart,
+    });
+  } else {
+    return next(new ErrorResponse(400, "Cart not found"));
+  }
+});

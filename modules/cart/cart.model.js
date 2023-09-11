@@ -31,21 +31,16 @@ const CartSchema = new mongoose.Schema({
 
 CartSchema.pre("save", async function (next) {
   try {
-    // Initialize totalPrice to 0
     this.totalPrice = 0;
 
-    // Iterate through each product in the cart
     for (const container of this.products) {
-      // Find the product by its ID
       const product = await productModel.findById(container.product);
-
-      // Add the product's price multiplied by quantity to totalPrice
       this.totalPrice += product.price * container.quantity;
     }
 
-    next(); // Move to the next middleware or save the document
+    next();
   } catch (error) {
-    next(error); // Pass any errors to the next middleware or error handler
+    next(error);
   }
 });
 
