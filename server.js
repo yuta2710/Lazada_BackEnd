@@ -2,7 +2,6 @@ const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const colors = require("colors");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const compression = require("compression");
@@ -66,9 +65,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => {
-  console.log(
-    `Server connected to http://localhost:${PORT}`.magenta.underline.bold
-  );
+  console.log(`Server connected to http://localhost:${PORT}`);
 });
 
 // Handle the unhandled promise rejection

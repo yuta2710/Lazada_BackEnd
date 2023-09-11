@@ -1,5 +1,4 @@
 const fs = require("fs");
-const colors = require("colors");
 const dotenv = require("dotenv");
 const connectDB = require("./configs/db.config");
 
@@ -35,7 +34,7 @@ const deserializedOrder = JSON.parse(
 );
 
 const loadingLogger = () => {
-  console.log("Loading.......".magenta.bold);
+  console.log("Loading.......");
 };
 
 const insertData = async () => {
@@ -46,9 +45,7 @@ const insertData = async () => {
     await Cart.create(deserializedCart);
     await Order.create(deserializedOrder);
     ~loadingLogger();
-    console.log(
-      `Inserted Data: `.green.underline + `<Successfully>`.green.inverse
-    );
+    console.log(`Inserted Data: <Successfully>`);
 
     process.exit();
   } catch (error) {
@@ -64,7 +61,7 @@ const deleteData = async () => {
     await Cart.deleteMany();
     await Order.deleteMany();
     loadingLogger();
-    console.log(`Deleted Data: `.red.underline + `<Successfully>`.red.inverse);
+    console.log(`Deleted Data: <Successfully>`);
     process.exit();
   } catch (error) {
     console.error(error);
