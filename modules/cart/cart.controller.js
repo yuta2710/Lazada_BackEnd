@@ -143,10 +143,10 @@ exports.addProductToCart = asyncHandler(async (req, res, next) => {
 exports.removeProductFromCart = asyncHandler(async (req, res, next) => {
   const { cartId, productId } = req.params;
   const product = await productModel.findById(productId);
-
+  console.log(product)
   // If the product was exist in database, check user login state
   if (product) {
-    if (req.cookies.token) {
+    if (req.headers.authorization.split(" ")[1]) {
       const cart = await cartModel.findById(cartId);
 
       if (cart !== null) {
